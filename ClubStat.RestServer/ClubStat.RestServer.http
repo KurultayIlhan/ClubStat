@@ -1,0 +1,6 @@
+@ClubStat.RestServer_HostAddress = http://localhost:5144
+
+GET {{ClubStat.RestServer_HostAddress}}/weatherforecast/
+Accept: application/json
+
+###
