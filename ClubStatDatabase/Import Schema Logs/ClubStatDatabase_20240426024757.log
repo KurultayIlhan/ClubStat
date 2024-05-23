@@ -1,0 +1,87 @@
+26/04/2024 16:47:57	This log contains information about the import schema operation into project 'ClubStatDatabase' on computer 'LAPTOP-3Q3QBB50' by user 'erte0'.
+26/04/2024 16:48:00	Import of database schema has started.
+26/04/2024 16:48:04	Gathering database credentials
+26/04/2024 16:48:04	Gathering database options
+26/04/2024 16:48:04	Gathering generic database scoped configuration option
+26/04/2024 16:48:04	Gathering users
+26/04/2024 16:48:04	Gathering roles
+26/04/2024 16:48:04	Gathering application roles
+26/04/2024 16:48:04	Gathering role memberships
+26/04/2024 16:48:04	Gathering filegroups
+26/04/2024 16:48:04	Gathering full-text catalogs
+26/04/2024 16:48:04	Gathering assemblies
+26/04/2024 16:48:04	Gathering certificates
+26/04/2024 16:48:04	Gathering asymmetric keys
+26/04/2024 16:48:04	Gathering symmetric keys
+26/04/2024 16:48:04	Gathering encrypted symmetric keys
+26/04/2024 16:48:04	Gathering schemas
+26/04/2024 16:48:04	Gathering XML schema collections
+26/04/2024 16:48:04	Gathering user-defined data types
+26/04/2024 16:48:04	Gathering user-defined types
+26/04/2024 16:48:04	Gathering table types
+26/04/2024 16:48:04	Gathering unique keys for table types
+26/04/2024 16:48:04	Gathering primary keys for table types
+26/04/2024 16:48:04	Gathering indexes for table types
+26/04/2024 16:48:04	Gathering check constraints for table types
+26/04/2024 16:48:04	Gathering default constraints for table types
+26/04/2024 16:48:04	Gathering partition functions
+26/04/2024 16:48:04	Gathering partition schemes
+26/04/2024 16:48:04	Gathering functions
+26/04/2024 16:48:04	Gathering encrypted functions
+26/04/2024 16:48:04	Gathering aggregates
+26/04/2024 16:48:05	Gathering procedures
+26/04/2024 16:48:05	Gathering encrypted procedures
+26/04/2024 16:48:05	Gathering tables
+26/04/2024 16:48:05	Gathering primary keys
+26/04/2024 16:48:05	Gathering unique constraints
+26/04/2024 16:48:05	Gathering foreign keys
+26/04/2024 16:48:05	Gathering default constraints
+26/04/2024 16:48:05	Gathering check constraints
+26/04/2024 16:48:05	Gathering views
+26/04/2024 16:48:05	Gathering encrypted views
+26/04/2024 16:48:05	Gathering indexes
+26/04/2024 16:48:05	Gathering statistics
+26/04/2024 16:48:05	Gathering full-text index stoplists
+26/04/2024 16:48:05	Gathering search property lists
+26/04/2024 16:48:05	Gathering search properties
+26/04/2024 16:48:05	Gathering full-text indexes
+26/04/2024 16:48:05	Gathering column store indexes
+26/04/2024 16:48:05	Gathering spatial indexes
+26/04/2024 16:48:05	Gathering XML indexes
+26/04/2024 16:48:05	Gathering Selective XML indexes
+26/04/2024 16:48:05	Gathering encrypted triggers
+26/04/2024 16:48:05	Gathering triggers
+26/04/2024 16:48:05	Gathering encrypted and clr ddl triggers
+26/04/2024 16:48:05	Gathering ddl triggers
+26/04/2024 16:48:05	Creating edge constraints
+26/04/2024 16:48:05	Gathering synonyms
+26/04/2024 16:48:05	Gathering defaults
+26/04/2024 16:48:05	Gathering data constraint uddt bindings
+26/04/2024 16:48:05	Gathering rules
+26/04/2024 16:48:05	Gathering data constraint uddt bindings
+26/04/2024 16:48:05	Gathering message types
+26/04/2024 16:48:05	Gathering queues
+26/04/2024 16:48:05	Gathering contracts
+26/04/2024 16:48:05	Gathering services
+26/04/2024 16:48:05	Gathering event notifications
+26/04/2024 16:48:05	Gathering remote service bindings
+26/04/2024 16:48:05	Gathering broker priorities
+26/04/2024 16:48:05	Gathering signatures
+26/04/2024 16:48:05	Gathering compression options
+26/04/2024 16:48:05	Gathering sequence types
+26/04/2024 16:48:05	Gathering security policies
+26/04/2024 16:48:05	Gather column encryption keys
+26/04/2024 16:48:05	Gathering column master keys
+26/04/2024 16:48:05	Gathering external data sources
+26/04/2024 16:48:05	Gathering external file formats
+26/04/2024 16:48:05	Gathering external tables
+26/04/2024 16:48:05	Gathering extended properties
+26/04/2024 16:48:05	Gathering assemblies
+26/04/2024 16:48:05	Gathering credentials
+26/04/2024 16:48:05	Gathering logins
+26/04/2024 16:48:05	Gathering server audits
+26/04/2024 16:48:06	Scanning project for duplicate elements
+26/04/2024 16:48:06	Finished duplicate element processing
+26/04/2024 16:48:08	Finished importing database.
+26/04/2024 16:48:08	A summary of the import was saved to the following location: C:\Users\erte0\source\School\ClubStatDatabase\Import Schema Logs\ClubStatDatabase_20240426024757.log
+26/04/2024 16:48:08	Click Finish to continue...
