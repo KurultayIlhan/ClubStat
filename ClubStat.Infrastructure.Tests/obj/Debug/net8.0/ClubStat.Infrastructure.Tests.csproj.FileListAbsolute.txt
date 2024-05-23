@@ -1,0 +1,12 @@
+C:\Users\erte0\source\repos\ClubStat\ClubStat.Infrastructure.Tests\bin\Debug\net8.0\CoverletSourceRootsMapping_ClubStat.Infrastructure.Tests
+C:\Users\erte0\source\repos\ClubStat\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.csproj.AssemblyReference.cache
+C:\Users\erte0\source\repos\ClubStat\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\erte0\source\repos\ClubStat\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.AssemblyInfoInputs.cache
+C:\Users\erte0\source\repos\ClubStat\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.AssemblyInfo.cs
+C:\Users\erte0\source\repos\ClubStat\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.csproj.CoreCompileInputs.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.csproj.AssemblyReference.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\erte0\source\School\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.AssemblyInfoInputs.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.AssemblyInfo.cs
+C:\Users\erte0\source\School\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.csproj.CoreCompileInputs.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure.Tests\obj\Debug\net8.0\ClubStat.Infrastructure.Tests.sourcelink.json
