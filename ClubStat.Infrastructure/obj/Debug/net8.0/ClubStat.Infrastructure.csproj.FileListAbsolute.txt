@@ -1,0 +1,13 @@
+C:\Users\erte0\source\School\ClubStat.Infrastructure\bin\Debug\net8.0\ClubStat.Infrastructure.deps.json
+C:\Users\erte0\source\School\ClubStat.Infrastructure\bin\Debug\net8.0\ClubStat.Infrastructure.dll
+C:\Users\erte0\source\School\ClubStat.Infrastructure\bin\Debug\net8.0\ClubStat.Infrastructure.pdb
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.csproj.AssemblyReference.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.GeneratedMSBuildEditorConfig.editorconfig
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.AssemblyInfoInputs.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.AssemblyInfo.cs
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.csproj.CoreCompileInputs.cache
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.sourcelink.json
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.dll
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\refint\ClubStat.Infrastructure.dll
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ClubStat.Infrastructure.pdb
+C:\Users\erte0\source\School\ClubStat.Infrastructure\obj\Debug\net8.0\ref\ClubStat.Infrastructure.dll

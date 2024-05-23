@@ -1,0 +1,27 @@
+// ***********************************************************************
+// Assembly         : ClubStat.Infrastructure
+// Author           : erte0
+// Created          : 02-11-2024
+//
+// Last Modified By : erte0
+// Last Modified On : 02-11-2024
+// ***********************************************************************
+// <copyright file="Player.cs" company="ClubStat.Infrastructure">
+//     Copyright (c) . All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace ClubStat.Infrastructure;
+
+/// <summary>
+/// Interface IFromJson will generate a type in a controlled way from json string
+/// </summary>
+/// <remarks>
+/// The interface abstracts away the need to know details of a class when converting it from json
+/// </remarks>
+internal abstract class TFromJson<T>
+{
+    public abstract T FromJson(string json);
+
+}
+
