@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : ClubStat.Infrastructure
 // Author           : Ilhan
 // Created          : Sat 11-May-2024
@@ -38,7 +38,25 @@ namespace ClubStat.Infrastructure.Factories
 
         protected ApiSettings Settings { get; }
 
-        public async Task<TResult?> GetAsync<TResult>(string endppoint) where TResult : class, new()
+        /// <summary>
+        /// Get bytes as an asynchronous operation.
+        /// </summary>
+        /// <param name="apiUrl">The API URL.</param>
+        /// <returns>A Task&lt;System.Byte[]&gt; representing the asynchronous operation.</returns>
+        protected async Task<byte[]> GetBytesAsync(string apiUrl)
+        {
+            var client = _clientFactory.CreateClient(Settings.Url);
+            if (!client.DefaultRequestHeaders.Contains(MagicStrings.API_HEADER))
+            {
+                client.DefaultRequestHeaders.TryAddWithoutValidation(MagicStrings.API_HEADER, Settings.ApiKey);
+            }
+            HttpResponseMessage response = await client.GetAsync(apiUrl);
+            response.EnsureSuccessStatusCode();
+            return await response.Content.ReadAsByteArrayAsync();
+
+        }
+
+        public async Task<TResult?> GetAsync<TResult>(string endppoint) where TResult : class
         {
             var client = _clientFactory.CreateClient(Settings.Url);
             if (!client.DefaultRequestHeaders.Contains(MagicStrings.API_HEADER))
@@ -57,8 +75,29 @@ namespace ClubStat.Infrastructure.Factories
             }
 
             return null;
-
         }
+
+        public async Task<TResult?> GetAsync<TResult>(string endppoint, System.Text.Json.Serialization.Metadata.JsonTypeInfo<TResult> typeInfo) where TResult : class
+        {
+            var client = _clientFactory.CreateClient(Settings.Url);
+            if (!client.DefaultRequestHeaders.Contains(MagicStrings.API_HEADER))
+            {
+                client.DefaultRequestHeaders.TryAddWithoutValidation(MagicStrings.API_HEADER, Settings.ApiKey);
+            }
+
+
+            using var answer = await client.GetAsync(endppoint).ConfigureAwait(false);
+            if (answer.IsSuccessStatusCode)
+            {
+                if (await answer.Content.ReadAsStringAsync().ConfigureAwait(false) is string json
+                    && json.IsValidJson<TResult>(typeInfo, out TResult? value)
+                    )
+                    return value;
+            }
+
+            return null;
+        }
+       
         public async Task<TResult?> PostAsync<TResult>(string endppoint, IAsJson question) where TResult : class
         {
             var client = _clientFactory.CreateClient(Settings.Url);
@@ -71,7 +110,7 @@ namespace ClubStat.Infrastructure.Factories
             using var answer = await client.PostAsync(endppoint, postModel).ConfigureAwait(false);
             if (answer.IsSuccessStatusCode)
             {
-                if (await answer.Content.ReadAsStringAsync().ConfigureAwait(false) is string json 
+                if (await answer.Content.ReadAsStringAsync().ConfigureAwait(false) is string json
                     && json.IsValidJson<TResult>(MagicTypes.JsonTypeInfo<TResult>(), out TResult? value))
                     return value;
             }
@@ -79,6 +118,17 @@ namespace ClubStat.Infrastructure.Factories
             return null;
 
         }
+        public async Task<bool> WriteDataAsync(string endppoint, IAsJson question) 
+        {
+            var client = _clientFactory.CreateClient(Settings.Url);
+            if (!client.DefaultRequestHeaders.Contains(MagicStrings.API_HEADER))
+            {
+                client.DefaultRequestHeaders.TryAddWithoutValidation(MagicStrings.API_HEADER, Settings.ApiKey);
+            }
 
+            var postModel = new StringContent(question.AsJson(), encoding: Encoding.UTF8, "application/json");
+            using var answer = await client.PostAsync(endppoint, postModel).ConfigureAwait(false);
+            return answer.IsSuccessStatusCode;
+        }
     }
 }
