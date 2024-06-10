@@ -7,9 +7,14 @@ namespace ClubStat.Infrastructure.Tests
     public class LoginRecordTest
     {
         [TestMethod]
-        public void ConstructorTest()
+          public async Task ConstructorTest()
         {
-            var login = new LoggedInUser("username",UserType.Player);
+                    var config = new ConfigurationBuilder().AddJsonFile("Appsettings.json").Build();
+            using var service = new ServiceCollection()
+                            .RegisterClubStats(config).BuildServiceProvider();
+            var user = await service.GetRequiredService<ILoginFactory>().Login("Ronaldo", "Ronaldo").ConfigureAwait(false);
+            Assert.IsNotNull(user);
+            var login = new LoggedInUser(user);
             Assert.AreEqual(UserType.Player, login.UserType);
         }
     }
