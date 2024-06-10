@@ -23,8 +23,12 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "1.dl", "1.dl", "{A01F51EE-6
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubStat.Infrastructure", "ClubStat.Infrastructure\ClubStat.Infrastructure.csproj", "{39B6D8BE-01E9-4E4C-93FC-9013A2158F77}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubStat.RestServerTests", "ClubStat.RestServerTests\ClubStat.RestServerTests.csproj", "{E900FFCC-1ED6-4963-A462-AFCE06FCECC8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ClubStat.RestServerTests", "ClubStat.RestServerTests\ClubStat.RestServerTests.csproj", "{E900FFCC-1ED6-4963-A462-AFCE06FCECC8}"
 EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{40050F43-06A3-4554-9AA5-1FDC9E734CB0}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+	EndProjectSectionEndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
