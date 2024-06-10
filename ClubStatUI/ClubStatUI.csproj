@@ -1,8 +1,7 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
-		<!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>-->
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -134,9 +133,6 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\AgendaPlayer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
 	  <MauiXaml Update="Pages\Carousel.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
@@ -149,10 +145,10 @@
 	  <MauiXaml Update="Pages\DashboardPlayer.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\ForgetPassword.xaml">
+	  <MauiXaml Update="Pages\FormationCoach.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	  <MauiXaml Update="Pages\FormationCoach.xaml">
+	  <MauiXaml Update="Pages\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
 	  <MauiXaml Update="Pages\ProfilePlayer.xaml">
@@ -167,12 +163,6 @@
 	  <MauiXaml Update="Resources\Styles\Login.xaml">
 	    <Generator>MSBuild:Compile</Generator>
 	  </MauiXaml>
-	</ItemGroup>
-
-	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
 	</ItemGroup>
 
 	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionClubStatUIHideInfoBar="True" /></VisualStudio></ProjectExtensions>
