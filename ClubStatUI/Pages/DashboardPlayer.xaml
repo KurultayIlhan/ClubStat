@@ -1,0 +1,318 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:model="clr-namespace:ClubStatUI.ViewModels"
+             x:Class="ClubStatUI.Pages.DashboardPlayer"
+             Title="DashboardPlayer"
+             x:DataType="model:DashboardPlayerViewModel">
+    
+    <ScrollView>
+        <VerticalStackLayout BackgroundColor="#002855">
+            <Frame Padding="0"
+                   CornerRadius="0"
+                   IsClippedToBounds="True"
+                   ZIndex="1">
+                <Grid BackgroundColor="#002855">
+                    <!-- Content StackLayout with Grid -->
+                    <StackLayout Grid.Row="0"
+                                 Grid.Column="0"
+                                 Padding="30,150,30,50"
+                                 WidthRequest="400"
+                                 ZIndex="10">
+                        <Grid>
+                            <!-- Define three columns with equal width -->
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+
+                            <!-- Content in the first column -->
+                            <StackLayout Grid.Column="0">
+                                <StackLayout.GestureRecognizers>
+                                    <TapGestureRecognizer Tapped="btnTeamPage" />
+                                </StackLayout.GestureRecognizers>
+                                
+                                
+                                <Image Source="{Binding UpcomingMatch.Match.HomeTeam.ClubIconUrl, Mode=OneWay}"
+                                       HeightRequest="50"
+                                       WidthRequest="50" />
+                                
+                                
+                                <Label Padding="0,20,0,0"
+                                       TextColor="White"
+                                       Text="{Binding UpcomingMatch.Match.HomeTeam.ClubName, Mode=OneWay}"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+
+                            <!-- Content in the second column -->
+                            <!--Text="Sat 20 jan - 17:00"-->
+                            <StackLayout Grid.Column="1">
+                                <Label TextColor="White"
+                                       HorizontalTextAlignment="Center"
+                                       VerticalTextAlignment="Center"
+                                       Text="{Binding UpcomingMatch.Match.MatchDate, StringFormat='{}{0:ddd dd MMM - HH:mm}'}"
+                                       
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                <!-- Wrap the button with a Frame to add a border -->
+                                <Frame BorderColor="Transparent"
+                                       CornerRadius="5"
+                                       BackgroundColor="Transparent"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center">
+                                    <ContentView>
+                                        <!-- Image -->
+                                        <!-- <Image Source="logos.png" WidthRequest="20" HeightRequest="20" VerticalOptions="Center"/> -->
+                                        <Button BackgroundColor="white"
+                                                Text="Notify"
+                                                TextColor="Black"
+                                                Grid.Column="1"
+                                                HorizontalOptions="Center"
+                                                VerticalOptions="Center" />
+                                    </ContentView>
+                                </Frame>
+                            </StackLayout>
+                            <!-- Content in the third column -->
+                            <StackLayout Grid.Column="2">
+                                <Image Source="dworp.png"
+                                       HeightRequest="50"
+                                       WidthRequest="50" />
+                                <Label Padding="0,20,0,0"
+                                       TextColor="White"
+                                       Text="FC.Dworp"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+
+                    <Frame CornerRadius="0"
+                           Padding="0"
+                           Margin="0"
+                           BorderColor="Transparent"
+                           BackgroundColor="Transparent"
+                           HeightRequest="300"
+                           VerticalOptions="End"
+                           ZIndex="-10">
+                        <Frame.Background>
+                            <LinearGradientBrush EndPoint="0,1">
+                                <GradientStop Color="Transparent"
+                                              Offset="0" />
+                                <GradientStop Color="#00204B"
+                                              Offset="0.3" />
+                                <GradientStop Color="#001025"
+                                              Offset="0.6" />
+                                <GradientStop Color="#000F22"
+                                              Offset="1" />
+                            </LinearGradientBrush>
+                        </Frame.Background>
+                        <Image ZIndex="-15"
+                               Source="logos.png"
+                               Aspect="AspectFill"
+                               Opacity="0.03"
+                               HeightRequest="400"
+                               WidthRequest="400"
+                               TranslationX="200"
+                               TranslationY="-10" />
+                    </Frame>
+
+                </Grid>
+            </Frame>
+
+            <AbsoluteLayout  HeightRequest="300">
+                <!-- Background Image -->
+                <Image Aspect="AspectFill"
+                       Source="backgroundpattern.png" />
+                <!-- Centered Frame -->
+                <Frame CornerRadius="10"
+                       BorderColor="#001838"
+                       Padding="0"
+                       BackgroundColor="#56b6ff"
+                       AbsoluteLayout.LayoutBounds="0.5,0.5,0.8,0.8"
+                       AbsoluteLayout.LayoutFlags="All">
+                    <StackLayout>
+                        <StackLayout.GestureRecognizers>
+                            <TapGestureRecognizer Tapped="btnStatsPage" />
+                        </StackLayout.GestureRecognizers>
+                        <Label BackgroundColor="#001838"
+                               FontSize="15"
+                               Padding="10"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               Text="Persoonlijke statestieken" />
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="*" />
+                            </Grid.ColumnDefinitions>
+                            <StackLayout Grid.Column="0">
+                                <Label Padding="0,25,0,0"
+                                       FontAttributes="Bold"
+                                       Text="Pass"
+                                       TextColor="#001838"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                <Frame  WidthRequest="90"
+                                        HeightRequest="90"
+                                        CornerRadius="45"
+                                        BackgroundColor="#001838"
+                                        BorderColor="#001838"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Margin="0,20,0,0">
+                                    <Frame WidthRequest="85"
+                                           HeightRequest="85"
+                                           CornerRadius="42.5"
+                                           BackgroundColor="#56B6FF"
+                                           BorderColor="#001838"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Label VerticalOptions="Center"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               Text="{Binding TrainingResults.Attitude}" />
+                                    </Frame>
+                                </Frame>
+                            </StackLayout>
+                            <StackLayout Grid.Column="1">
+                                <Label Padding="0,25,0,0"
+                                       FontAttributes="Bold"
+                                       TextColor="#001838"
+                                       Text="Shots"
+                                       HorizontalOptions="Center"
+                                       VerticalOptions="Center" />
+                                <Frame  WidthRequest="90"
+                                        HeightRequest="90"
+                                        CornerRadius="45"
+                                        BackgroundColor="#001838"
+                                        BorderColor="#001838"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        Margin="0,20,0,0">
+                                    <Frame WidthRequest="85"
+                                           HeightRequest="85"
+                                           CornerRadius="42.5"
+                                           BackgroundColor="#56B6FF"
+                                           BorderColor="#001838"
+                                           HorizontalOptions="Center"
+                                           VerticalOptions="Center">
+                                        <Label HorizontalOptions="Center"
+                                               VerticalOptions="Center"
+                                               FontSize="20"
+                                               FontAttributes="Bold"
+                                               Text="{Binding PersonalStatistics.ShotsMade}"
+                                               TextColor="#001838" />
+                                    </Frame>
+                                </Frame>
+                            </StackLayout>
+                        </Grid>
+                    </StackLayout>
+                </Frame>
+            </AbsoluteLayout>
+            <StackLayout Padding="35">
+                <Grid>
+                    <Grid.RowDefinitions>
+                        <!-- Define two rows with equal height -->
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+
+                    <!-- Content for the first row -->
+                    <StackLayout Grid.Row="0">
+                        <Label TextColor="White"
+                               FontSize="15"
+                               FontAttributes="Bold"
+                               Text="Trainings resultaten"
+                               HorizontalOptions="Start"
+                               VerticalOptions="Center" />
+                    </StackLayout>
+                    <StackLayout Margin="5"
+                                 BackgroundColor="#042450"
+                                 Grid.Row="2">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Padding="10"
+                                   TextColor="#56B6FF"
+                                   Text="Attitude"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Center" />
+                            <ProgressBar ProgressColor="#56B6FF"
+                                         Grid.Column="1"
+                                         Progress="{Binding TrainingResults.Attitude}"
+                                         HeightRequest="10" />
+                            <BoxView Grid.Column="1"
+                                     Opacity="0.5"
+                                     BackgroundColor="White"
+                                     WidthRequest="2"
+                                     VerticalOptions="Fill"
+                                     HeightRequest="20"
+                                     HorizontalOptions="Center" />
+                        </Grid>
+                    </StackLayout>
+                    <StackLayout Margin="5"
+                                 BackgroundColor="#042450"
+                                 Grid.Row="3">
+                        <Grid>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
+                            </Grid.ColumnDefinitions>
+                            <Label Padding="10"
+                                   TextColor="#56B6FF"
+                                   Text="Inzet"
+                                   HorizontalOptions="Start"
+                                   VerticalOptions="Center" />
+                            <ProgressBar ProgressColor="#56B6FF"
+                                         Grid.Column="1"
+                                         Progress="{Binding TrainingResults.Commitment}"
+                            HeightRequest="10" />
+                            <BoxView Grid.Column="1"
+                                     Opacity="0.5"
+                                     BackgroundColor="White"
+                                     WidthRequest="2"
+                                     VerticalOptions="Fill"
+                                     HeightRequest="20"
+                                     HorizontalOptions="Center" />
+                        </Grid>
+                    </StackLayout>
+                </Grid>
+            </StackLayout>
+
+            <StackLayout BackgroundColor="#56B6FF">
+                <Grid Padding="35,35,35,20">
+                    <Grid.RowDefinitions>
+                        <!-- Define two rows with equal height -->
+                        <RowDefinition Height="1*" />
+                        <RowDefinition Height="1*" />
+                    </Grid.RowDefinitions>
+                    <Label Grid.Row="0"
+                           FontSize="15"
+                           TextColor="#001838"
+                           FontAttributes="Bold"
+                           Text="Man of the month"
+                           HorizontalOptions="Start"
+                           VerticalOptions="Center" />
+                    <Label Padding="0,10,0,0"
+                           Grid.Row="1"
+                           FontSize="11"
+                           TextColor="#001838"
+                           Text="Herleef de spanning van eerdere wedstrijden bij het bekijken van de resultaten" />
+                </Grid>
+                <Grid>
+                    <Image Margin="0"
+                           Aspect="AspectFill"
+                           Source="manofthematch.png"
+                           HorizontalOptions="FillAndExpand"
+                           VerticalOptions="FillAndExpand" />
+                </Grid>
+            </StackLayout>
+        </VerticalStackLayout>
+    </ScrollView>
+</ContentPage>

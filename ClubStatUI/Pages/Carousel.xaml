@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClubStatUI.Pages.Carousel"
+             Title="Carousel"
+             BackgroundImageSource="carouselbg.jpg">
+    <VerticalStackLayout>
+        <IndicatorView  IndicatorSize="10" x:Name="indicatorView" Margin="5" Padding="5,10,0,0" HorizontalOptions="Center" IndicatorColor="Gray" SelectedIndicatorColor="White" />
+        <CarouselView x:Name="carouselView" VerticalOptions="FillAndExpand" IndicatorView="indicatorView" Loop="False">
+            <CarouselView.ItemTemplate>
+                <DataTemplate>
+                    <Grid>
+                        <!-- Background Image -->
+                        <Image Margin="0" Source="{Binding ImageBg}" Aspect="AspectFill" />
+                        <Image Margin="20,-100,20,0" VerticalOptions="Center"  Source="{Binding Image}" ZIndex="10" />
+                        <Frame Margin="-1,0,-1,115"  BorderColor="Transparent" BackgroundColor="Transparent" HorizontalOptions="Fill" HeightRequest="300"  ZIndex="0">
+                            <Frame.Background>
+                                <LinearGradientBrush EndPoint="0,1">
+                                    <GradientStop Color="Transparent" Offset="0" />
+                                    <GradientStop Color="#001838" Offset="0.6" />
+                                    <GradientStop Color="#001838" Offset="1" />
+                                </LinearGradientBrush>
+                            </Frame.Background>
+                        </Frame>
+                        <!-- Text and Button -->
+                        <StackLayout  BackgroundColor="#001838" Padding="10,0,10,80" VerticalOptions="End" HorizontalOptions="Center">
+                            <!-- Text -->
+                            <Label Margin="0,0,0,0" Text="{Binding Title}" 
+                           FontSize="40" 
+                           TextColor="White"
+                           FontAttributes="Bold"                          />
+                            
+                            <Label Text="{Binding Description}" 
+                           FontSize="20"
+                                   Padding="0,20,0,20"
+                           TextColor="White"/>
+                                <!-- Button -->
+                            <Button Text="Get started"
+                            BackgroundColor="#56B6FF"
+                            TextColor="White" />
+                        </StackLayout>
+                    </Grid>
+                </DataTemplate>
+            </CarouselView.ItemTemplate>
+        </CarouselView>
+
+    </VerticalStackLayout>
+</ContentPage>

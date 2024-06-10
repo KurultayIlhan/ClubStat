@@ -1,0 +1,78 @@
+<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             x:Class="ClubStatUI.Pages.CoachAbsences"
+             Title="CoachAbsences">
+    <VerticalStackLayout BackgroundColor="#001838">
+        <Frame Padding="0"
+               CornerRadius="0"
+               IsClippedToBounds="True"
+               ZIndex="1">
+            <Grid BackgroundColor="#002855">
+                <!-- Content StackLayout with Grid -->
+                <StackLayout Grid.Row="0"
+                             Grid.Column="0"
+                             Padding="30,150,0,0"
+                             WidthRequest="400"
+                             ZIndex="10">
+                    <Grid>
+                        <Label FontSize="30"
+                               TextColor="White"
+                               FontAttributes="Bold"
+                               Text="Absences" />
+                    </Grid>
+                </StackLayout>
+
+                <Frame CornerRadius="0"
+                       Padding="0"
+                       Margin="0"
+                       BorderColor="Transparent"
+                       BackgroundColor="Transparent"
+                       HeightRequest="200"
+                       VerticalOptions="End"
+                       ZIndex="-10">
+                    <Frame.Background>
+                        <LinearGradientBrush EndPoint="0,1">
+                            <GradientStop Color="Transparent"
+                                          Offset="0" />
+                            <GradientStop Color="#00204B"
+                                          Offset="0.3" />
+                            <GradientStop Color="#001025"
+                                          Offset="0.6" />
+                            <GradientStop Color="#000F22"
+                                          Offset="1" />
+                        </LinearGradientBrush>
+                    </Frame.Background>
+                    <Image ZIndex="-15"
+                           Source="logos.png"
+                           Aspect="AspectFill"
+                           Opacity="0.03"
+                           HeightRequest="400"
+                           WidthRequest="400"
+                           TranslationX="200"
+                           TranslationY="-10" />
+                </Frame>
+            </Grid>
+        </Frame>
+        <StackLayout>
+            <Label Text="{Binding CurrentDate}"
+                   HorizontalOptions="CenterAndExpand"
+                   Margin="10"/>
+
+            <ListView x:Name="nameListView"
+                      SelectionMode="Single"
+                      ItemsSource="{Binding SampleNames}">
+                <ListView.ItemTemplate>
+                    <DataTemplate>
+                        <TextCell TextColor="White"
+                                  Text="{Binding}" />
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <Button TextColor="White"
+                    BackgroundColor="#56B6FF"
+                    Text="Get Selected Name"
+                    Clicked="OnSelectButtonClicked" />
+        </StackLayout>
+    </VerticalStackLayout>
+</ContentPage>

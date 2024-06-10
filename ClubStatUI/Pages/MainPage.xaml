@@ -1,0 +1,81 @@
+﻿<?xml version="1.0" encoding="utf-8" ?>
+<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+             xmlns:local="clr-namespace:ClubStatUI.ViewModels"
+             x:DataType="local:LoginViewModel"
+             x:Class="ClubStatUI.Pages.MainPage"
+             BackgroundImageSource="vector.png">
+
+    <ScrollView>
+        <StackLayout>
+            <!-- Top section with image centered -->
+            <StackLayout Margin="0,80,0,0">
+                <Image
+            Source="logo_clubstat.png"
+            HeightRequest="175"
+            WidthRequest="175" />
+            </StackLayout>
+
+            <!-- Main login section -->
+            <StackLayout Margin="20,10,20,0">
+                <Label 
+                Text="Login"
+                FontSize="30" 
+                FontAttributes="Bold"
+                TextColor="white"
+                Margin="0,0,0,10" />
+                <Label 
+                Text="Name"
+                TextColor="white"
+                Margin="0,0,0,5" />
+                <Border 
+                Stroke="white"
+                StrokeThickness="1"
+                 Opacity="1"
+                StrokeShape="RoundRectangle 5,5,5,5"
+                HorizontalOptions="FillAndExpand"
+                Padding="1">
+                    <Entry 
+                  TextColor="White"
+                  Text="{Binding LoginName}"
+                  BackgroundColor="#002855" 
+                  Placeholder="Enter your name" 
+                  HorizontalOptions="FillAndExpand" 
+                  />
+                </Border>
+                <Label 
+                Text="Password"
+                TextColor="white"
+                Margin="0,10,0,5" />
+                <Border 
+                Stroke="White"
+                Opacity="1"
+                StrokeThickness="1"
+                StrokeShape="RoundRectangle 5,5,5,5"
+                 HorizontalOptions="FillAndExpand"
+                 Padding="1">
+                    <Entry 
+                TextColor="white"
+                Text="{Binding Password}"
+                BackgroundColor="#002855" 
+                Placeholder="Enter your password" 
+                IsPassword="True" 
+                HorizontalOptions="FillAndExpand" />
+                </Border>
+                <Button 
+                TextColor="#002855" 
+                BackgroundColor="#56B6FF" 
+                Text="LOGIN" 
+                Command="{Binding LoginCommand}" 
+                Margin="0,20,0,0"/>
+                <Label 
+                Text="Forgot Password?"
+                TextColor="white"
+                Margin="0,10,0,0"
+                TextDecorations="Underline"
+                HorizontalOptions="Start" />
+            </StackLayout>
+        </StackLayout>
+    </ScrollView>
+
+</ContentPage>
