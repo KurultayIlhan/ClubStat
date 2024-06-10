@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
@@ -37,7 +37,7 @@ namespace ClubStat.Infrastructure.Factories
         public async Task UploadPictureForUser(Guid userId, byte[] pictureData)
         {
            var model = new ProfileImage(userId, pictureData);
-           await base.WriteDataAsync(MagicStrings.PlayerPostPicture, model);
+           await base.PostAsync(MagicStrings.PlayerPostPicture, model);
         }
 
         byte[]? LoadPictureFromFile(string filePath)
