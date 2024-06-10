@@ -1,4 +1,4 @@
-﻿using ClubStat.Infrastructure.Settings;
+using ClubStat.Infrastructure.Settings;
 using ClubStat.RestServer.Infrastructure;
 
 using Microsoft.Extensions.Caching.Memory;
@@ -12,6 +12,7 @@ namespace ClubStat.RestServer.Builder
         public static T AddWebsiteInfrastructure<T>(this T service) where T : IServiceCollection
         {
             service.AddTransient<DbHelper>();
+            service.AddMemoryCache();
             service.AddLogging();
             service.AddTransient<ApiSettings>(service => GetApiKey(service));
             //Data Source=(localdb)\MSSQLLocalDB;Initial Catalog=master;Integrated Security=True;Connect Timeout=30;Encrypt=False;Trust Server Certificate=False;Application Intent=ReadWrite;Multi Subnet Failover=False
