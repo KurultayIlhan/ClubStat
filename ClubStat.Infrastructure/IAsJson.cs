@@ -1,9 +1,9 @@
 // ***********************************************************************
 // Assembly         : ClubStat.Infrastructure
-// Author           : erte0
+// Author           : Ilhan Kurultay
 // Created          : 02-11-2024
 //
-// Last Modified By : erte0
+// Last Modified By : Ilhan Kurultay
 // Last Modified On : 02-11-2024
 // ***********************************************************************
 // <copyright file="Player.cs" company="ClubStat.Infrastructure">

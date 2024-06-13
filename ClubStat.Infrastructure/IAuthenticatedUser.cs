@@ -1,13 +1,13 @@
 // ***********************************************************************
 // Assembly         : ClubStat.Infrastructure
-// Author           : erte0
+// Author           : Ilhan Kurultay
 // Created          : 02-11-2024
 //
-// Last Modified By : erte0
+// Last Modified By : Ilhan Kurultay
 // Last Modified On : 02-11-2024
 // ***********************************************************************
-// <copyright file="Player.cs" company="ClubStat.Infrastructure">
-//     Copyright (c) . All rights reserved.
+// <copyright file="Player.cs" company="Ilhan Kurultay">
+//     Copyright (c) Ilhan Kurultay. All rights reserved.
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
@@ -26,4 +26,3 @@ public interface IAuthenticatedUser
     string FullName { get; }
     Guid UserId { get; }
 }
-

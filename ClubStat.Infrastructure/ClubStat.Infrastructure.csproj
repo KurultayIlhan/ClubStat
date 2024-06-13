@@ -1,4 +1,4 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <TargetFramework>net8.0</TargetFramework>
@@ -7,11 +7,26 @@
     <Title>Infrastructure Library For ClubStat Mobile App</Title>
     <Authors>Ilhan Kurultay</Authors>
     <Company>Private eigendom Ilhan Kurultay</Company>
-    <Copyright>2024  © Ilhan Kurultay All rights reserved</Copyright>
+    <Copyright>2024  © Ilhan Kurultay All rights reserved</Copyright>	 
   </PropertyGroup>
 
   <ItemGroup>
+    <Compile Remove="Assets\**" />
+    <EmbeddedResource Remove="Assets\**" />
+    <None Remove="Assets\**" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <None Remove="Resources\NoProfileImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
+    <EmbeddedResource Include="Resources\NoProfileImage.png" />
+  </ItemGroup>
+
+  <ItemGroup>
     <PackageReference Include="CommunityToolkit.Mvvm" Version="8.2.2" />
+    <PackageReference Include="Microsoft.Extensions.Caching.Memory" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Binder" Version="8.0.1" />
     <PackageReference Include="Microsoft.Extensions.Configuration.Json" Version="8.0.0" />
@@ -26,10 +41,6 @@
     <Using Include="ClubStat.Infrastructure.Settings" />
     <Using Include="Microsoft.Extensions.Configuration" />
 
-  </ItemGroup>
-
-  <ItemGroup>
-    <Folder Include="Assets\images\clubs\" />
   </ItemGroup>
 
 </Project>
