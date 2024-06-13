@@ -1,4 +1,4 @@
-﻿// ***********************************************************************
+// ***********************************************************************
 // Assembly         : ClubStatUI
 // Author           : Ilhan Kurultay
 // Created          : Mon 12-Feb-2024
@@ -54,7 +54,7 @@ namespace ClubStatUI.ViewModels
             // TODO: navigate to login when current user is null
             if (loginFactory.CurrentUser is Player player) 
             { 
-                User = player;
+                _user = player;
             }
 
             // Initialize other fields with required arguments
@@ -84,9 +84,7 @@ namespace ClubStatUI.ViewModels
                 var match = await _matchFactory.GetPlyersNextMatch(playerId: id.Value).ConfigureAwait(true);
                 if (match is not null)
                 {
-                    base.OnPropertyChanging(nameof(UpcomingMatch));
                     UpcomingMatch.Match = match;
-                    base.OnPropertyChanged(nameof(UpcomingMatch));
                 }
             }
             if(UpcomingMatch.Match is not null) 
@@ -97,7 +95,6 @@ namespace ClubStatUI.ViewModels
                     var list = await LocalNotificationCenter.Current.GetDeliveredNotificationList().ConfigureAwait(true);
 
                     UpcomingMatch.RemindMe = list.FirstOrDefault(f => f.NotificationId == UpcomingMatch.Match.GetReminderId()) != null;
-                    base.OnPropertyChanged(nameof(UpcomingMatch));
                 }
 
             }
