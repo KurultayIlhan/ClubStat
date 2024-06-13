@@ -23,23 +23,25 @@ namespace ClubStat.Infrastructure.Factories
     }
     internal sealed class LoginFactory : ApiBasedFactory, ILoginFactory
     {
+        private readonly IProfilePictureFactory _pictureFactory;
 
-        public LoginFactory(IConfiguration configuration, IHttpClientFactory clientFactory)
+        public LoginFactory(IConfiguration configuration, IHttpClientFactory clientFactory, IProfilePictureFactory pictureFactory)
             : base(configuration, clientFactory)
         {
+            _pictureFactory = pictureFactory;
 #if DEBUG
-            CurrentUser = new Player()
-            {
-                ClubId = 4,
-                DateOfBirth = new DateTime(2009,12,07),
-                FullName = "Ronaldo",
-                PlayerAttitude = 7,
-                PlayerMotivation = 6,
-                PlayersLeague = 15,
-                PlayersLeagueLevel = 'A',
-                UserId = Guid.Parse("93e14140-d603-ef11-868d-c8e26574d4f6"),
-                UserType = UserType.Player
-            };
+            //CurrentUser = new Player()
+            //{
+            //    ClubId = 4,
+            //    DateOfBirth = new DateTime(2009, 12, 07),
+            //    FullName = "Ronaldo",
+            //    PlayerAttitude = 7,
+            //    PlayerMotivation = 6,
+            //    PlayersLeague = 15,
+            //    PlayersLeagueLevel = 'A',
+            //    UserId = Guid.Parse("93e14140-d603-ef11-868d-c8e26574d4f6"),
+            //    UserType = UserType.Player
+            //};
 #endif
 
         }
@@ -51,7 +53,7 @@ namespace ClubStat.Infrastructure.Factories
         {
             // Generates and entry in the ILogger null or empty
             Walter.Guard.EnsureNotNullOrEmpty(username);
-
+            Walter.Guard.EnsureNotNullOrEmpty(password);
             if (string.Equals(username, CurrentUser?.FullName, StringComparison.Ordinal))
                 return CurrentUser;
 
@@ -67,12 +69,27 @@ namespace ClubStat.Infrastructure.Factories
             {
                 case UserType.Player:
 
-                    CurrentUser = await GetAsync<Player>(MagicStrings.PlayerUrl(answer.UserId)).ConfigureAwait(false);
+                    var player = await GetAsync<Player>(MagicStrings.PlayerUrl(answer.UserId)).ConfigureAwait(false);
+                    if (player is not null)
+                    {
+                        var bytes = await _pictureFactory.GetProfilePictureForUserAsync(answer.UserId);
+                        player.ProfileImageBytes = bytes;
+                    }
+                    CurrentUser = player;
                     break;
+
                 case UserType.Coach:
+                    CurrentUser = await GetAsync<Coach>(MagicStrings.CoachUrl(answer.UserId)).ConfigureAwait(false);
                     break;
                 case UserType.Delegee:
+
                     break;
+            }
+            if(CurrentUser is not null) 
+            {
+                CurrentUser.UserId = answer.UserId;
+                CurrentUser.UserType = answer.UserType;
+                
             }
             //return cashed user
             return CurrentUser;
