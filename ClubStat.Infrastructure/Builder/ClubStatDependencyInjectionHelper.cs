@@ -1,9 +1,9 @@
-﻿// ***********************************************************************
+/ ***********************************************************************
 // Assembly         : ClubStat.Infrastructure
-// Author           : Ilhan
+// Author           : Ilhan Kurultay
 // Created          : Sat 11-May-2024
 //
-// Last Modified By : Ilhan
+// Last Modified By : Ilhan Kurultay
 // Last Modified On : Tue 14-May-2024
 // ***********************************************************************
 // <copyright file="ClubStatDependencyInjectionHelper.cs" company="Private eigendom Ilhan Kurultay">
@@ -18,21 +18,15 @@ namespace ClubStat.Infrastructure.Builder
 {
     public static class ClubStatDependencyInjectionHelper
     {
-        public static bool InjectFake = false;
         public static T RegisterClubStats<T>(this T services, IConfiguration configuration) where T : IServiceCollection
         {
             services.AddSingleton<IConfiguration>(configuration)
-                    .AddSingleton<IDashboardViewGenerator, DashboardViewGenerator>();
-            if (InjectFake)
-            {
-                //inject fakes for development and automation testing 
-                //without working on live data
-            }
-            else 
-            {
+                    .AddSingleton<IDashboardViewGenerator, DashboardViewGenerator>()
+                    .AddHttpClient()
+                    .AddMemoryCache();
+                    
                 //live data
                 services.InjectFactories();
-            }
 
             return services;
         }
@@ -40,7 +34,12 @@ namespace ClubStat.Infrastructure.Builder
         //inject the live versions
         static T InjectFactories<T>(this T services) where T : IServiceCollection
         {
+            services.AddSingleton<IPlayerRecorder, PlayerRecorder>();
             services.AddSingleton<ILoginFactory, LoginFactory>();
+            services.AddSingleton<IMatchFactory, MatchFactory>();
+            services.AddSingleton<IClubFactory, ClubFactory>();
+            services.AddTransient<IPlayerMentainance, PlayerMentainance>();
+            services.AddTransient<IProfilePictureFactory,ProfilePictureFactory>();
             services.AddTransient<LoggedInUser>(services => services.GetRequiredService<ILoginFactory>().CurrentUser!);
             return services;
         }
