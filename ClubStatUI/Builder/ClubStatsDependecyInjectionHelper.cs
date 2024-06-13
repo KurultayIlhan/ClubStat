@@ -1,4 +1,4 @@
-﻿using ClubStatUI.Platforms;
+using ClubStatUI.Platforms;
 
 namespace ClubStatUI.Builder
 {
