@@ -1,7 +1,7 @@
 <Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
-    <TargetFramework>net8.0</TargetFramework>
+    <TargetFramework>net8.0-android</TargetFramework>
     <ImplicitUsings>enable</ImplicitUsings>
     <Nullable>enable</Nullable>
 
@@ -10,22 +10,28 @@
   </PropertyGroup>
 
   <ItemGroup>
-    <PackageReference Include="Microsoft.Extensions.Configuration" Version="8.0.0" />
-    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
-    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
-    <PackageReference Include="MSTest.TestAdapter" Version="3.4.0" />
-    <PackageReference Include="MSTest.TestFramework" Version="3.4.0" />
+    <PackageReference Include="coverlet.collector" Version="6.0.2">
       <PrivateAssets>all</PrivateAssets>
       <IncludeAssets>runtime; build; native; contentfiles; analyzers; buildtransitive</IncludeAssets>
     </PackageReference>
+    <PackageReference Include="Microsoft.Extensions.DependencyInjection" Version="8.0.0" />
+    <PackageReference Include="Microsoft.NET.Test.Sdk" Version="17.10.0" />
+    <PackageReference Include="MSTest.TestAdapter" Version="3.4.1" />
+    <PackageReference Include="MSTest.TestFramework" Version="3.4.1" />
   </ItemGroup>
+
   <ItemGroup>
-    <ProjectReference Include="..\ClubStat.Infrastructure\ClubStat.Infrastructure.csproj" />
+    <ProjectReference Include="..\ClubStatUI\ClubStatUI.csproj" />
   </ItemGroup>
+
   <ItemGroup>
-    <Using Include="ClubStat.Infrastructure.Builder" />
-    <Using Include="ClubStat.Infrastructure.Factories" />
-    <Using Include="Microsoft.Extensions.Configuration" />
-    <Using Include="Microsoft.Extensions.DependencyInjection" />
+    <Using Include="Microsoft.VisualStudio.TestTools.UnitTesting" />
   </ItemGroup>
+
+  <ItemGroup>
+    <None Update="appsettings.json">
+      <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+    </None>
+  </ItemGroup>
+
 </Project>
