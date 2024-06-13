@@ -22,19 +22,26 @@ namespace ClubStat.Infrastructure.Models;
 /// <param name="UserId">The Users ID in the system</param>
 public partial class LoggedInUser:ObservableObject,IAuthenticatedUser
 {
-    [ObservableProperty]
-    string _fullName  = string.Empty;
 
-    [ObservableProperty]
+    string _fullName  = string.Empty;
     UserType _userType  = UserType.None;
-    
-    [ObservableProperty]
     Guid _userId  = Guid.Empty;
+
+    public string FullName { get => _fullName; set => SetProperty(ref _fullName , value); }
+    public UserType UserType { get => _userType; set => SetProperty(ref _userType , value); }
+    public Guid UserId { get => _userId; set => SetProperty(ref _userId, value); }
+
     public LoggedInUser(IAuthenticatedUser? user)
     {
-        _fullName = user?.FullName??string.Empty;
-        _userType = user?.UserType??UserType.None;
-        _userId = user?.UserId??Guid.Empty;
+        FullName = user?.FullName??string.Empty;
+        UserType = user?.UserType??UserType.None;
+        UserId = user?.UserId??Guid.Empty;
+    }
+    public LoggedInUser(string fullName, UserType userType, Guid userId)
+    {
+        _fullName = fullName;
+        _userType = userType;
+        _userId = userId;
     }
     public LoggedInUser()
     {

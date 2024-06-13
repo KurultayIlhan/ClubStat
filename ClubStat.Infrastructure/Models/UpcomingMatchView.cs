@@ -10,11 +10,11 @@ public partial class UpcomingMatchView : ObservableObject
     bool _remindMe;
 
     [ObservableProperty]
-    DateTime _matchDate;
+    Match? _match;
+    public UpcomingMatchView()
+    {
+        
+    }
 
-    [ObservableProperty]
-    ClubIcon? _homeTeam;
 
-    [ObservableProperty]
-    ClubIcon? _awayTeam;
 }

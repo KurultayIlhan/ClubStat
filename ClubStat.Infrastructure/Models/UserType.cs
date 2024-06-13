@@ -14,6 +14,7 @@
 
 namespace ClubStat.Infrastructure.Models;
 
+
 /// <summary>
 /// Shows the user which profile he will see
 /// </summary>

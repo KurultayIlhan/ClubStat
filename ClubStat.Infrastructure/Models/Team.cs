@@ -12,11 +12,12 @@ public partial class Team: ObservableObject
     int _age;
 
     [ObservableProperty]
-    ClubIcon? _club;
+    Club? _club;
 
     [ObservableProperty]
     string _teamAbrv = string.Empty;
-
+ 
+    [ObservableProperty]
     ObservableCollection<Player> _players = new ObservableCollection<Player>();
 
 

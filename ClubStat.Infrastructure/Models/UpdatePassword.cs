@@ -32,23 +32,19 @@ namespace ClubStat.Infrastructure.Models
     {
     }
 
-    public partial class UpdatePassword : ObservableValidator, IAsJson
+    public sealed class UpdatePassword : ObservableValidator, IAsJson, IEquatable<UpdatePassword?>
     {
 
-        [Required(AllowEmptyStrings = false)]
-        [ObservableProperty]
+        [Required(AllowEmptyStrings = false)]        
         string _currentPassword = string.Empty;
 
-        [Required(AllowEmptyStrings = false)]
-        [ObservableProperty]
+        [Required(AllowEmptyStrings = false)]        
         string _newPassword = string.Empty;
 
-        [Required(AllowEmptyStrings = false)]
-        [ObservableProperty]
+        [Required(AllowEmptyStrings = false)]        
         string? _userName = string.Empty;
 
-        [Required]
-        [ObservableProperty]
+        [Required]        
         Guid? _userId;
 
         [JsonConstructor]
@@ -62,10 +58,56 @@ namespace ClubStat.Infrastructure.Models
             _userId = user.UserId;
             _userName = user.FullName;
         }
+        
+        [Required(AllowEmptyStrings =false)]
+        public string CurrentPassword { get => _currentPassword; set => SetProperty(ref _currentPassword , value); }
+        
+        [Required(AllowEmptyStrings =false)]
+        public string NewPassword { get => _newPassword; set => SetProperty(ref _newPassword , value); }
+        
+        [Required(AllowEmptyStrings =false)]
+        public string? UserName { get => _userName; set => SetProperty(ref _userName , value); }
+        
+        [Required()]
+        public Guid? UserId { get => _userId; set => SetProperty(ref _userId , value); }
+
+        public override string ToString()
+        {
+            return $"new password for {UserName}";
+        }
 
         public string AsJson()
         {
           return System.Text.Json.JsonSerializer.Serialize(this, UpdatePasswordJsonContext.Default.UpdatePassword);   
+        }
+
+        public override bool Equals(object? obj)
+        {
+            return Equals(obj as UpdatePassword);
+        }
+
+        public bool Equals(UpdatePassword? other)
+        {
+            return other is not null &&
+                   _currentPassword == other._currentPassword &&
+                   _newPassword == other._newPassword &&
+                   _userName == other._userName &&
+                   EqualityComparer<Guid?>.Default.Equals(_userId, other._userId);
+        }
+
+        public override int GetHashCode()
+        {
+            return HashCode.Combine(_currentPassword, _newPassword, _userName, _userId);
+        }
+
+        public static bool operator ==(UpdatePassword? left, UpdatePassword? right)
+        {
+            return EqualityComparer<UpdatePassword>.Default.Equals(left, right);
+        }
+
+        public static bool operator !=(UpdatePassword? left, UpdatePassword? right)
+        {
+            return !(left == right);
         }
     }
 }

@@ -14,11 +14,21 @@
 // </summary>
 // ***********************************************************************
 namespace ClubStat.Infrastructure.Models;
-public enum PlayerActivities
+
+public enum MatchPosition
 {
-    None = 0, 
-    Assist = 1,         // double tap on the player for an assist
-    Goal = 2,           // triple tap on the player for an goal
-    YellowCard = 3,     // swipe left on the player for an yellow card
-    RedCard = 4         // swipe right on the player for an red card
-}
+    None=0, 
+    SP =1, 
+    LM =2, 
+    CAM=3, 
+    RM=4, 
+    CM=5, 
+    CML=6, 
+    CMR=7, 
+    LB=8, 
+    RB=9, 
+    CBL=10,
+    CBR = 12,
+    GK =11,
+    BankOne =13
+};

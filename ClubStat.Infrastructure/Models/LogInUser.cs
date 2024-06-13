@@ -7,29 +7,30 @@ namespace ClubStat.Infrastructure.Models
     [JsonSerializable(typeof(LogInUser))]
     [JsonSourceGenerationOptions(
                     GenerationMode = JsonSourceGenerationMode.Metadata,
-                    Converters = [typeof(GDPRObfuscatedStringConverter)],
+                  //  Converters = [typeof(GDPRObfuscatedStringConverter)],
                     DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
                     PropertyNameCaseInsensitive = true,
                     WriteIndented = true
         )]
     public partial class LogInUserJsonContext : JsonSerializerContext
     {
-}
+    }
 
 
 
     public class LogInUser:IAsJson
     {
-        [JsonConverter(typeof(GDPRObfuscatedStringConverter))]
+        //[JsonConverter(typeof(GDPRObfuscatedStringConverter))]
         public required string Username { get; set; }
 
-        [JsonConverter(typeof(GDPRObfuscatedStringConverter))]
+        //[JsonConverter(typeof(GDPRObfuscatedStringConverter))]
         // Alleen versleutelde passwoorden 
         public required string Password { get; set; }
 
         public string AsJson()
         {
-            return System.Text.Json.JsonSerializer.Serialize(this, LogInUserJsonContext.Default.LogInUser);
+           var answer = System.Text.Json.JsonSerializer.Serialize(this, LogInUserJsonContext.Default.LogInUser);
+            return answer;
         }
     }
 
