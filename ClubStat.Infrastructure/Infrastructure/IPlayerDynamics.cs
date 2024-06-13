@@ -1,13 +1,22 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
-
-namespace ClubStat.Infrastructure.Infrastructure
+﻿// ***********************************************************************
+// Assembly         : ClubStat.Infrastructure
+// Author           : Ilhan
+// Created          : Sat 11-May-2024
+//
+// Last Modified By : Ilhan
+// Last Modified On : Fri 24-May-2024
+// ***********************************************************************
+// <copyright file="IPlayerDynamics.cs" company="Private eigendom Ilhan Kurultay">
+//     2024  © Ilhan Kurultay All rights reserved
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+namespace ClubStat.Infrastructure;
+public interface IPlayerDynamics
 {
-    public interface IPlayerDynamics
-    {
-     Task<PlayerDynamicsLocation> GetPlayerDynamicsLocation();
-    }
+    Task<PlayerDynamicsLocation> GetPlayerDynamicsLocation();
+
+    public bool IsInGame { get; set; }
+
+    public PlayerDynamicsLocation LastKnownLocation { get; }
 }
