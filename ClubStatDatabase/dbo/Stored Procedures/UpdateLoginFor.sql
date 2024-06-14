@@ -13,7 +13,7 @@ as
 
 BEGIN TRANSACTION
 
-DECLARE @UserUsername_CS int =CHECKSUM(@username),
+DECLARE @UserUsername_CS int =CHECKSUM(@UserName),
 		@salt BINARY(16) = CAST(CRYPT_GEN_RANDOM(16) AS BINARY(16));
 
 DECLARE	@hashedPassword BINARY(32)= HASHBYTES('SHA2_256', CONCAT(@salt, CAST(@password AS VARBINARY(510))));
@@ -22,7 +22,7 @@ DECLARE	@hashedPassword BINARY(32)= HASHBYTES('SHA2_256', CONCAT(@salt, CAST(@pa
 		SET [Salt]=@salt
            ,[UserPassword]= @hashedPassword
 	 WHERE @UserUsername_CS = [UserUsername_CS] 	
-	   And [UserUsername]	= @username				   
+	   And [UserUsername]	= @UserName				   
 	   AND [UserPassword]	= HASHBYTES('SHA2_256', CONCAT([Salt], CAST(@oldPassword AS VARBINARY(MAX))))
 	   AND [UserId] = @UserId;
 

@@ -1,4 +1,5 @@
-﻿CREATE TABLE [dbo].[Match] (
+﻿CREATE TABLE [dbo].[Match] (    
+    [MatchId] INT IDENTITY (1, 1),
     [AwayTeamClubId]    INT           NOT NULL,
     [HomeTeamClubId]    INT           NOT NULL,
     [PlayerLeague]      INT           NOT NULL,
@@ -9,3 +10,7 @@
     CONSTRAINT [PK_Match] PRIMARY KEY CLUSTERED ([MatchDate] ASC, [PlayerLeague] ASC, [PlayerLeagueLevel] ASC, [HomeTeamClubId] ASC, [AwayTeamClubId] ASC)
 );
 
+
+GO
+
+CREATE INDEX [IX_Match_MatchId] ON [dbo].[Match] ([MatchId])
