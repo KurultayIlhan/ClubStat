@@ -22,7 +22,7 @@ namespace ClubStat.Infrastructure.Settings
         /// Gets the URL for the application to talk with.
         /// </summary>
         /// <value>The URL.</value>
-        public required string Url { get; set; }
+        public required string Url { get; set; } = "https://ilhankurultay-001-site1.btempurl.com";
         /// <summary>
         /// Gets the API key that is used to talk with the API.
         /// </summary>
