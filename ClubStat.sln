@@ -1,4 +1,4 @@
-
+﻿
 Microsoft Visual Studio Solution File, Format Version 12.00
 # Visual Studio Version 17
 VisualStudioVersion = 17.8.34525.116
@@ -30,7 +30,7 @@ Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution 
 		.editorconfig = .editorconfig
 	EndProjectSection
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ClubStatUITests", "ClubStatUITests\ClubStatUITests.csproj", "{55E3EBE3-3C95-4E5A-8A66-427EE3276C31}"
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "IntegrationTest", "IntegrationTest\IntegrationTest.csproj", "{5FB8C43B-F28A-41A8-B839-1DB02F34BCD7}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -66,10 +66,10 @@ Global
 		{E900FFCC-1ED6-4963-A462-AFCE06FCECC8}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{E900FFCC-1ED6-4963-A462-AFCE06FCECC8}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{E900FFCC-1ED6-4963-A462-AFCE06FCECC8}.Release|Any CPU.Build.0 = Release|Any CPU
-		{55E3EBE3-3C95-4E5A-8A66-427EE3276C31}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{55E3EBE3-3C95-4E5A-8A66-427EE3276C31}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{55E3EBE3-3C95-4E5A-8A66-427EE3276C31}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{55E3EBE3-3C95-4E5A-8A66-427EE3276C31}.Release|Any CPU.Build.0 = Release|Any CPU
+		{5FB8C43B-F28A-41A8-B839-1DB02F34BCD7}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{5FB8C43B-F28A-41A8-B839-1DB02F34BCD7}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{5FB8C43B-F28A-41A8-B839-1DB02F34BCD7}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{5FB8C43B-F28A-41A8-B839-1DB02F34BCD7}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -81,7 +81,6 @@ Global
 		{ACD1E1FF-E222-43D2-83E9-EAFEA812AC95} = {1BAC5AC0-4706-477A-8F2B-9A25C947704A}
 		{39B6D8BE-01E9-4E4C-93FC-9013A2158F77} = {A01F51EE-64E4-4F7E-BA74-C034A902D314}
 		{E900FFCC-1ED6-4963-A462-AFCE06FCECC8} = {8E7DF97B-FF2A-43AF-905A-1FEEABFC3A45}
-		{55E3EBE3-3C95-4E5A-8A66-427EE3276C31} = {8E7DF97B-FF2A-43AF-905A-1FEEABFC3A45}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {27E69896-24F9-4833-A493-B37320F9B427}
