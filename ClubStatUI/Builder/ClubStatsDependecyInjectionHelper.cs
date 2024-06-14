@@ -1,3 +1,6 @@
+﻿using ClubStat.Infrastructure.Infrastructure;
+
+using ClubStatUI.Infrastructure;
 using ClubStatUI.Platforms;
 
 namespace ClubStatUI.Builder
@@ -12,22 +15,37 @@ namespace ClubStatUI.Builder
             services.AddTransient<Pages.MainPage>();
             services.AddTransient<LoginViewModel>();
 
-            services.AddSingleton<Pages.DashboardCoach>();
-            services.AddSingleton<DashboardCoachViewModel>();
+            services.AddTransient<Pages.DashboardCoach>();
+            services.AddTransient<DashboardCoachViewModel>();
 
-            services.AddSingleton<Pages.DashboardPlayer>();
-            services.AddSingleton<DashboardPlayerViewModel>();
+            services.AddTransient<Pages.DashboardPlayer>();
+            services.AddTransient<DashboardPlayerViewModel>();
 
-            services.AddSingleton<Pages.TeamPlayer>();
-            services.AddSingleton<TeamPlayerViewModel>();
-
-            services.AddSingleton<Pages.DashboardCoach>();
-            services.AddSingleton<DashboardCoachViewModel>();
-            services.AddTransient<ProfilePicturePlayerViewModel>();
+            services.AddTransient<Pages.TeamPlayer>();
             services.AddTransient<TeamPlayerViewModel>();
+
+            services.AddTransient<Pages.DashboardCoach>();
+            services.AddTransient<DashboardCoachViewModel>();
+
+            services.AddTransient<Pages.ProfilePlayer>();
+            services.AddTransient<ProfilePlayerViewModel>();
+            
+            services.AddTransient<Pages.StatsPlayer>();
+            services.AddTransient<StatsPlayerViewModel>();
+
+            services.AddTransient<Pages.AgendaPlayer>();
+            services.AddTransient<AgendaPlayerViewModel>();
+
+
+            services.AddTransient<Pages.FormationCoach>();
+            services.AddTransient<FormationCoachViewModel>();
+
+            services.AddTransient<ProfilePicturePlayerViewModel>();
+            
             services.AddTransient<CurrentGameViewModel>();
 
             services.AddInfrastructure();
+            services.AddSingleton<IOnlineDetector, OnlineDetector>();
             return services;
         }
         public static void RegisterRoutes()
@@ -37,6 +55,8 @@ namespace ClubStatUI.Builder
             Routing.RegisterRoute(nameof(Pages.DashboardPlayer), typeof(Pages.DashboardPlayer));
             Routing.RegisterRoute(nameof(Pages.TeamPlayer), typeof(Pages.TeamPlayer));
             Routing.RegisterRoute(nameof(Pages.StatsPlayer), typeof(Pages.StatsPlayer));
+            Routing.RegisterRoute(nameof(Pages.FormationCoach), typeof(Pages.FormationCoach));
+            Routing.RegisterRoute(nameof(Pages.CoachAbsences), typeof(Pages.CoachAbsences));
 
         }
         public static void AddInfrastructure(this IServiceCollection services)
