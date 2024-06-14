@@ -1,37 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ClubStatUI.Pages.TeamPlayer"
-             xmlns:model="clr-namespace:ClubStatUI.ViewModels"
-             x:DataType="model:TeamPlayerViewModel"
-             Title="TeamPlayer">
+<ContentPage
+    x:Class="ClubStatUI.Pages.TeamPlayer"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:ClubStatUI.ViewModels"
+    xmlns:poco="clr-namespace:ClubStat.Infrastructure.Models;assembly=ClubStat.Infrastructure"
+    Title="TeamPlayer"
+    x:DataType="model:TeamPlayerViewModel">
     <ScrollView>
         <VerticalStackLayout BackgroundColor="#001838">
-            <Frame Padding="0" CornerRadius="0" IsClippedToBounds="True" ZIndex="1">
-                <Grid BackgroundColor="#002855" >
-                    <!-- Content StackLayout with Grid -->
-                    <StackLayout Grid.Row="0" Grid.Column="0" Padding="30,150,0,0" WidthRequest="400" ZIndex="10" >
+            <Frame
+                Padding="0"
+                CornerRadius="0"
+                IsClippedToBounds="True"
+                ZIndex="1">
+                <Grid BackgroundColor="#002855">
+                    <!--  Content StackLayout with Grid  -->
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="30,150,0,0"
+                        WidthRequest="400"
+                        ZIndex="10">
                         <Grid>
-                            <Label FontSize="30" TextColor="White" FontAttributes="Bold" Text="K.V. Zuun U15B" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="30"
+                                   Text="{Binding Path=Player.League}"
+                                   TextColor="White" />
                         </Grid>
                     </StackLayout>
 
-                    <Frame CornerRadius="0" Padding="0" Margin="0" BorderColor="Transparent" BackgroundColor="Transparent" HeightRequest="200" VerticalOptions="End" ZIndex="-10">
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        CornerRadius="0"
+                        HeightRequest="200"
+                        VerticalOptions="End"
+                        ZIndex="-10">
                         <Frame.Background>
                             <LinearGradientBrush EndPoint="0,1">
-                                <GradientStop Color="Transparent" Offset="0" />
-                                <GradientStop Color="#00204B" Offset="0.3" />
-                                <GradientStop Color="#001025" Offset="0.6" />
-                                <GradientStop Color="#000F22" Offset="1" />
+                                <GradientStop Offset="0" Color="Transparent" />
+                                <GradientStop Offset="0.3" Color="#00204B" />
+                                <GradientStop Offset="0.6" Color="#001025" />
+                                <GradientStop Offset="1" Color="#000F22" />
                             </LinearGradientBrush>
                         </Frame.Background>
-                        <Image ZIndex="-15" Source="logos.png" Aspect="AspectFill" Opacity="0.03" HeightRequest="400" WidthRequest="400" TranslationX="200" TranslationY="-10" />
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="400"
+                            Opacity="0.03"
+                            Source="logos.png"
+                            TranslationX="200"
+                            TranslationY="-10"
+                            WidthRequest="400"
+                            ZIndex="-15" />
                     </Frame>
                 </Grid>
             </Frame>
-            <StackLayout Grid.Row="0" Grid.Column="0" Padding="10,0,0,0" WidthRequest="400" ZIndex="10" >
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="10,0,0,0"
+                WidthRequest="400"
+                ZIndex="10">
                 <Grid>
-                    <!-- Define three rows with equal height -->
+                    <!--  Define three rows with equal height  -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
@@ -46,125 +82,56 @@
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
-                    <StackLayout Grid.Row="0" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#56B6FF">
+                    <StackLayout
+                        Grid.Row="0"
+                        Margin="0,0,0,0"
+                        Padding="10,0,20,0"
+                        BackgroundColor="#56B6FF">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="#042450" Grid.Column="0" FontSize="15" Padding="10" FontAttributes="Bold" Text="Spelers" VerticalOptions="Center"/>
-                            <Label TextColor="#56B6FF"  Grid.Column="1" FontSize="15" Padding="10" FontAttributes="Bold" Text="12 km/h" HorizontalOptions="End" />
+                            <Label
+                                Grid.Column="0"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="15"
+                                Text="Spelers"
+                                TextColor="#042450"
+                                VerticalOptions="Center" />
+
                         </Grid>
 
                     </StackLayout>
-                    <StackLayout Grid.Row="1" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#001838">
+                    <StackLayout
+                        Grid.Row="1"
+                        Margin="0,0,0,0"
+                        Padding="10,0,20,0"
+                        BackgroundColor="#001838">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Alexandru Cirlan" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="2" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#042450">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Haytam Moro Khaouch" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="3" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#001838">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Francis" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="4" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#042450">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Kylian" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="5" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#001838">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Adan Mayne" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="6" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#042450">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Ayoub Ayat Laghzali" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="7" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#001838">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Fidel Barry" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="8" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#042450">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Olivier Murawski" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="9" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#001838">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Isa Isirla" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="10" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#042450">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Tilo Nollet" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
-                        </Grid>
-                    </StackLayout>
-                    <StackLayout Grid.Row="11" Margin="0,0,0,0" Padding="10,0,20,0"  BackgroundColor="#001838">
-                        <Grid>
-                            <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
-                            </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="15" Padding="10"  Text="Valentino Dolcini" VerticalOptions="Center"/>
-                            <Label TextColor="White"  Grid.Column="1" FontSize="15" Padding="10"  Text="CM" HorizontalOptions="End" />
+                            <!--<Label TextColor="White"
+                                   Grid.Column="0"
+                                   FontSize="15"
+                                   Padding="10"
+                                   Text="{Binding Team}"
+                                   VerticalOptions="Center" />-->
+                            <CollectionView ItemsSource="{Binding Team, Mode=OneWay}">
+                                <CollectionView.ItemTemplate>
+                                    <DataTemplate x:DataType="poco:Player">
+                                        <Grid Padding="10">
+                                            <Label
+                                                FontSize="Medium"
+                                                Text="{Binding FullName}"
+                                                TextColor="White"
+                                                VerticalOptions="Center" />
+                                        </Grid>
+                                    </DataTemplate>
+                                </CollectionView.ItemTemplate>
+                            </CollectionView>
                         </Grid>
                     </StackLayout>
                 </Grid>

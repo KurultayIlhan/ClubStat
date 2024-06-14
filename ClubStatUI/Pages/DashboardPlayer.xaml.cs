@@ -20,7 +20,7 @@ namespace ClubStatUI.Pages;
 
 public partial class DashboardPlayer : ContentPage, INotifyPropertyChanged
 {
-    LoggedInUser? _user;
+    
     public DashboardPlayer(DashboardPlayerViewModel model)
     {
         InitializeComponent();
@@ -35,32 +35,9 @@ public partial class DashboardPlayer : ContentPage, INotifyPropertyChanged
             await loader.ExecuteAsync()
                         .ConfigureAwait(true);
         }
+        Loaded -= OnDashboardPlayer_Loaded;
     }
 
-    public LoggedInUser? User
-    {
-        get => _user;
-        set
-        {
-
-            _user = value;
-            OnPropertyChanged(nameof(User));
-            if (User is ClubStat.Infrastructure.Models.Player)
-            {
-                OnPropertyChanged(nameof(Player));
-            }
-
-        }
-    }
-
-
-
-
-    /// <summary>
-    /// Gets the player from the login.
-    /// </summary>
-    /// <value>The player.</value>
-    public ClubStat.Infrastructure.Models.Player? Player => _user as ClubStat.Infrastructure.Models.Player;
 
     private async void btnProfilePage(object sender, EventArgs e)
     {
@@ -80,6 +57,15 @@ public partial class DashboardPlayer : ContentPage, INotifyPropertyChanged
         // Navigate to TargetPage
         //await Navigation.PushAsync(new TeamPlayer());
         await Shell.Current.GoToAsync("//TeamPlayer");
+    }
+
+    private void btnProfilePage(object sender, TappedEventArgs e)
+    {
+
+    }
+    private async void btnAgendaPagina(object sender, EventArgs e)
+    {
+        await Shell.Current.GoToAsync("//AgendaPlayer");
     }
     //public DashboardPlayer(DashboardPlayerViewModel model)
     //{

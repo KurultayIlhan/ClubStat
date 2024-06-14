@@ -4,6 +4,7 @@
              xmlns:model="clr-namespace:ClubStatUI.ViewModels"
              x:Class="ClubStatUI.Pages.DashboardPlayer"
              Title="DashboardPlayer"
+             xmlns:poco="clr-namespace:ClubStat.Infrastructure.Models;assembly=ClubStat.Infrastructure"
              x:DataType="model:DashboardPlayerViewModel">
     
     <ScrollView>
@@ -76,12 +77,12 @@
                             </StackLayout>
                             <!-- Content in the third column -->
                             <StackLayout Grid.Column="2">
-                                <Image Source="dworp.png"
+                                <Image Source="{Binding UpcomingMatch.Match.AwayTeam.ClubIconUrl, Mode=OneWay}"
                                        HeightRequest="50"
                                        WidthRequest="50" />
                                 <Label Padding="0,20,0,0"
                                        TextColor="White"
-                                       Text="FC.Dworp"
+                                       Text="{Binding UpcomingMatch.Match.AwayTeam.ClubName, Mode=OneWay}"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                             </StackLayout>
@@ -109,7 +110,7 @@
                             </LinearGradientBrush>
                         </Frame.Background>
                         <Image ZIndex="-15"
-                               Source="logos.png"
+                               Source="{Binding UpcomingMatch.Match.HomeTeam.ClubIconUrl, Mode=OneWay}"
                                Aspect="AspectFill"
                                Opacity="0.03"
                                HeightRequest="400"
@@ -124,6 +125,7 @@
             <AbsoluteLayout  HeightRequest="300">
                 <!-- Background Image -->
                 <Image Aspect="AspectFill"
+                       HeightRequest="300"
                        Source="backgroundpattern.png" />
                 <!-- Centered Frame -->
                 <Frame CornerRadius="10"
@@ -136,12 +138,20 @@
                         <StackLayout.GestureRecognizers>
                             <TapGestureRecognizer Tapped="btnStatsPage" />
                         </StackLayout.GestureRecognizers>
-                        <Label BackgroundColor="#001838"
+                        <HorizontalStackLayout BackgroundColor="#001838">
+                        <Label 
                                FontSize="15"
                                Padding="10"
                                TextColor="White"
                                FontAttributes="Bold"
                                Text="Persoonlijke statestieken" />
+                        <Image 
+                               Source="{Binding ImagePath}"
+                               HorizontalOptions="End" 
+                               HeightRequest="25"
+                               Margin="40,0,0,0"
+                               WidthRequest="25" />
+                        </HorizontalStackLayout>
                         <Grid>
                             <Grid.ColumnDefinitions>
                                 <ColumnDefinition Width="*" />
@@ -150,7 +160,7 @@
                             <StackLayout Grid.Column="0">
                                 <Label Padding="0,25,0,0"
                                        FontAttributes="Bold"
-                                       Text="Pass"
+                                       Text="Average speed"
                                        TextColor="#001838"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
@@ -170,9 +180,11 @@
                                            HorizontalOptions="Center"
                                            VerticalOptions="Center">
                                         <Label VerticalOptions="Center"
-                                               FontSize="20"
+                                               FontSize="15"
                                                FontAttributes="Bold"
-                                               Text="{Binding TrainingResults.Attitude}" />
+                                               HorizontalTextAlignment="Center"
+                                               TextColor="#001838"
+                                               Text="{Binding Statistics.AverageSpeed, Mode=OneWay}" />
                                     </Frame>
                                 </Frame>
                             </StackLayout>
@@ -180,7 +192,7 @@
                                 <Label Padding="0,25,0,0"
                                        FontAttributes="Bold"
                                        TextColor="#001838"
-                                       Text="Shots"
+                                       Text="Sprints"
                                        HorizontalOptions="Center"
                                        VerticalOptions="Center" />
                                 <Frame  WidthRequest="90"
@@ -202,8 +214,8 @@
                                                VerticalOptions="Center"
                                                FontSize="20"
                                                FontAttributes="Bold"
-                                               Text="{Binding PersonalStatistics.ShotsMade}"
-                                               TextColor="#001838" />
+                                               Text="{Binding Statistics.Sprints, Mode=OneWay}"
+                                                TextColor="#001838" />
                                     </Frame>
                                 </Frame>
                             </StackLayout>
@@ -245,7 +257,7 @@
                                    VerticalOptions="Center" />
                             <ProgressBar ProgressColor="#56B6FF"
                                          Grid.Column="1"
-                                         Progress="{Binding TrainingResults.Attitude}"
+                                         Progress="{Binding User.ScaledPlayerAttitude, Mode=OneWay}"
                                          HeightRequest="10" />
                             <BoxView Grid.Column="1"
                                      Opacity="0.5"
@@ -271,8 +283,8 @@
                                    VerticalOptions="Center" />
                             <ProgressBar ProgressColor="#56B6FF"
                                          Grid.Column="1"
-                                         Progress="{Binding TrainingResults.Commitment}"
-                            HeightRequest="10" />
+                                         Progress="{Binding User.ScaledPlayerMotivation, Mode=OneWay}"
+                                         HeightRequest="10" />
                             <BoxView Grid.Column="1"
                                      Opacity="0.5"
                                      BackgroundColor="White"
@@ -286,6 +298,9 @@
             </StackLayout>
 
             <StackLayout BackgroundColor="#56B6FF">
+                <StackLayout.GestureRecognizers>
+                    <TapGestureRecognizer Tapped="btnAgendaPagina" />
+                </StackLayout.GestureRecognizers>
                 <Grid Padding="35,35,35,20">
                     <Grid.RowDefinitions>
                         <!-- Define two rows with equal height -->

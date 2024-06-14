@@ -32,14 +32,14 @@
                         <StackLayout Grid.Column="0">
                             <Image
                                 HeightRequest="50"
-                                Source="logozuun.png"
+                                Source="{Binding NextMatch.HomeTeam.ClubIconUrl}"
                                 WidthRequest="50" />
-                            <!--<Label
+                            <Label
                                 Padding="0,20,0,0"
                                 HorizontalOptions="Center"
-                                Text="{Binding UpcomingMatch.homeTeam, Mode=OneWay}"
+                                Text="{Binding NextMatch.HomeTeam.ClubName, Mode=OneWay}"
                                 TextColor="White"
-                                VerticalOptions="Center" />-->
+                                VerticalOptions="Center" />
                         </StackLayout>
 
                         <!--  Content in the second column  -->
@@ -47,7 +47,7 @@
                             <Label
                                 HorizontalOptions="Center"
                                 HorizontalTextAlignment="Center"
-                                Text="Sat 20 jan - 17:00"
+                                Text="{Binding NextMatch.MatchDate}"
                                 TextColor="White"
                                 VerticalOptions="Center"
                                 VerticalTextAlignment="Center" />
@@ -75,12 +75,12 @@
                         <StackLayout Grid.Column="2">
                             <Image
                                 HeightRequest="50"
-                                Source="dworp.png"
+                                Source="{Binding NextMatch.AwayTeam.ClubIconUrl}"
                                 WidthRequest="50" />
                             <Label
                                 Padding="0,20,0,0"
                                 HorizontalOptions="Center"
-                                Text="FC.Dworp"
+                                Text="{Binding NextMatch.AwayTeam.ClubName}"
                                 TextColor="White"
                                 VerticalOptions="Center" />
                         </StackLayout>
@@ -123,7 +123,7 @@
                 Clicked="btnFormation"
                 Text="Opstelling"
                 TextColor="#001838" />
-            <Button
+            <!--<Button
                 BackgroundColor="#2AF7B9"
                 Clicked="btnAbsences"
                 Text="Aanwezigheid"
@@ -131,7 +131,7 @@
             <Button
                 BackgroundColor="#2AF7B9"
                 Text="Punten"
-                TextColor="#001838" />
+                TextColor="#001838" />-->
         </StackLayout>
     </VerticalStackLayout>
 

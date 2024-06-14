@@ -15,5 +15,11 @@ public partial class Carousel : ContentPage
         };
 		carouselView.ItemsSource = items;
 	}
+    private async void btnLoginPage(object sender, EventArgs e)
+    {
+        // Navigate to the profile page here
+        // await Navigation.PushAsync(new ProfilePlayer());
+        await Shell.Current.GoToAsync("//MainPage");
+    }
 
 }

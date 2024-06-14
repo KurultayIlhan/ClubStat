@@ -1,114 +1,271 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ClubStatUI.Pages.FormationCoach"
-             Title="FormationCoach">
+<ContentPage
+    x:Class="ClubStatUI.Pages.FormationCoach"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:behavior="clr-namespace:ClubStatUI.Behavior"
+    xmlns:model="clr-namespace:ClubStatUI.ViewModels"
+    xmlns:poco="clr-namespace:ClubStat.Infrastructure.Models;assembly=ClubStat.Infrastructure"
+    Title="FormationCoach"
+    x:DataType="model:FormationCoachViewModel">
     <ContentPage.Resources>
-        <!-- Define a list of names as a static resource -->
-        <x:Array x:Key="PlayerNames"
-                 Type="{x:Type x:String}">
-            <x:String>Adam Haddouch</x:String>
-            <x:String>Arif Ylan</x:String>
-            <x:String>Assi Essa Kylian Anthony</x:String>
-            <x:String>Avduli Nedrit</x:String>
-            <x:String>Ayat Laghzali Ayoub</x:String>
-            <x:String>Barry Fidel</x:String>
-            <x:String>Bateoui Yassine</x:String>
-            <x:String>Boughaf Ossama</x:String>
-            <x:String>Boulahya Waël</x:String>
-            <x:String>Cîrlan Alexandru</x:String>
-            <x:String>Dikenoglu Efe Cagan</x:String>
-            <x:String>Dolcini Valentino</x:String>
-            <x:String>Isirla Isa</x:String>
-            <x:String>Kalonda Luhembe Francis</x:String>
-            <x:String>Mayne Adan</x:String>
-            <x:String>Mets Senne</x:String>
-            <x:String>Moro Khaouch Haytam</x:String>
-            <x:String>Liu Zi Tao</x:String>
-            <x:String>Murawski Olivier</x:String>
-            <x:String>Nollet Tilo</x:String>
-            <x:String>Talbi Yasser</x:String>
-            <x:String>Tellier Jorvic</x:String>
-        </x:Array>
-        <x:Array x:Key="FormationNames"
-                 Type="{x:Type x:String}">
-            <x:String>4-2-3-1</x:String>
-            <x:String>4-3-3</x:String>
-            <x:String>4-4-2</x:String>
-        </x:Array>
+        <ResourceDictionary>
+            <behavior:PlayerImageLoaderBehavior x:Key="ImageLoaderBehavior" />
+            <x:Array x:Key="FormationNames" Type="{x:Type x:String}">
+                <x:String>4-2-3-1</x:String>
+                <x:String>4-3-3</x:String>
+                <x:String>4-4-2</x:String>
+            </x:Array>
+            <x:Array x:Key="PlayerActivitiesArray" Type="{x:Type poco:PlayerActivities}">
+                <poco:PlayerActivities>None</poco:PlayerActivities>
+                <poco:PlayerActivities>Assist</poco:PlayerActivities>
+                <poco:PlayerActivities>Goal</poco:PlayerActivities>
+                <poco:PlayerActivities>YellowCard</poco:PlayerActivities>
+                <poco:PlayerActivities>RedCard</poco:PlayerActivities>
+            </x:Array>
+        </ResourceDictionary>
     </ContentPage.Resources>
     <ScrollView>
         <VerticalStackLayout BackgroundColor="#001838">
-
-            <Frame Padding="0"
-                   CornerRadius="0"
-                   IsClippedToBounds="True"
-                   ZIndex="1">
-                <Grid BackgroundColor="#001838">
-                    <!-- Content StackLayout with Grid -->
-                    <Grid Grid.Row="0"
-                          Grid.Column="0"
-                          Padding="30,150,0,0"
-                          WidthRequest="400"
-                          ZIndex="10">
+            <!--
+                DEMO DATA LAST LOCATION
+                Call the current, or previous match to thet the lat-long for the players in the field
+            -->
+            <Button
+                Command="{Binding GetTeamsLastKnownLocationCommand}"
+                CommandParameter="{Binding Match.MatchId}"
+                Text="Get Past Location" />
+            <ListView ItemsSource="{Binding TeamsLastKnownLocation, Mode=OneWay}">
+                <ListView.ItemTemplate>
+                    <DataTemplate x:DataType="poco:PlayerMovement">
                         <Grid>
-                            <Label FontSize="30"
-                                   TextColor="White"
-                                   FontAttributes="Bold"
-                                   Text="Formation" />
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="Auto" />
+                            </Grid.RowDefinitions>
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Label
+                                BackgroundColor="white"
+                                HeightRequest="50"
+                                Text="{Binding PlayerId}" />
+                            <Label Grid.Column="1" Text="{Binding Location}" />
+                        </Grid>
+                    </DataTemplate>
+                </ListView.ItemTemplate>
+            </ListView>
+            <!--  SHOW & UPDATE MOTIVATION  -->
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="38" />
+                    <RowDefinition Height="38" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Label
+                    Padding="5"
+                    HeightRequest="40"
+                    Style="{x:StaticResource Key=SubHeadline}"
+                    Text="{Binding SelectedPlayer.FullName, Mode=OneWay}"
+                    TextColor="White" />
+                <Editor
+                    x:Name="PlayerAttitudeEditor"
+                    Grid.Row="1"
+                    BackgroundColor="White"
+                    FontSize="12"
+                    HeightRequest="35"
+                    Placeholder="Attitude"
+                    Text="{Binding PlayerGameMotivation.PlayerAttitude, Mode=TwoWay}"
+                    TextColor="Black"
+                    WidthRequest="150" />
+                <Editor
+                    x:Name="PlayerMotivationEditor"
+                    Grid.Row="2"
+                    BackgroundColor="White"
+                    FontSize="12"
+                    HeightRequest="35"
+                    Placeholder="Motivation"
+                    Text="{Binding PlayerGameMotivation.PlayerMotivation, Mode=TwoWay}"
+                    TextColor="Black"
+                    WidthRequest="150" />
+                <Button
+                    Grid.Row="3"
+                    BackgroundColor="#2AF7B9"
+                    Command="{Binding UpdatePlayerStatisticsCommand}"
+                    IsEnabled="{Binding CanUpdatePlayer, Mode=OneWay}"
+                    Text="Update Player" />
+
+            </Grid>
+            <Grid>
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="40" />
+                    <RowDefinition Height="38" />
+                    <RowDefinition Height="38" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Grid.Column="1"
+                    Padding="5"
+                    HeightRequest="40"
+                    Style="{x:StaticResource Key=SubHeadline}"
+                    Text="{Binding SelectedPlayerPosition.Lat, Mode=OneWay}"
+                    TextColor="White" />
+                <Label
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Padding="5"
+                    HeightRequest="40"
+                    Style="{x:StaticResource Key=SubHeadline}"
+                    Text="{Binding SelectedPlayerPosition.Lng, Mode=OneWay}"
+                    TextColor="White" />
+                <Label
+                    Grid.Row="2"
+                    Grid.Column="1"
+                    Padding="5"
+                    HeightRequest="40"
+                    Style="{x:StaticResource Key=SubHeadline}"
+                    Text="{Binding SelectedPlayerPosition.Recorded, Converter={x:StaticResource Key=UtcToLocalDateTimeConverter}, Mode=OneWay}"
+                    TextColor="White" />
+                <Label
+                    Grid.Row="0"
+                    Grid.Column="0"
+                    Padding="5"
+                    HeightRequest="40"
+                    Style="{x:StaticResource Key=SubHeadline}"
+                    Text="Latittude: "
+                    TextColor="White" />
+            </Grid>
+            <Grid MinimumHeightRequest="36">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Style="{x:StaticResource SubHeadline}"
+                    Text="Record Action"
+                    TextColor="White" />
+                <Picker
+                    x:Name="pickPlayerActivity"
+                    Grid.Row="1"
+                    BackgroundColor="White"
+                    ItemsSource="{x:StaticResource PlayerActivitiesArray}"
+                    SelectedItem="{Binding SelectedActivity}"
+                    WidthRequest="150" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    BackgroundColor="#2AF7B9"
+                    Command="{Binding UpdatePlayerActivityCommand}"
+                    CommandParameter="{Binding SelectedItem, Source={x:Reference pickPlayerActivity}}"
+                    Text="Update Player" />
+            </Grid>
+
+            <!--<Grid MinimumHeightRequest="36">
+                <Grid.RowDefinitions>
+                    <RowDefinition Height="auto" />
+                    <RowDefinition Height="auto" />
+                </Grid.RowDefinitions>
+                <Grid.ColumnDefinitions>
+                    <ColumnDefinition Width="auto" />
+                    <ColumnDefinition Width="1*" />
+                </Grid.ColumnDefinitions>
+                <Label
+                    Style="{x:StaticResource SubHeadline}"
+                    Text="Action"
+                    TextColor="White" />
+                <Picker
+                    x:Name="pickPlayerActivity"
+                    Grid.Row="1"
+                    ItemsSource="{x:StaticResource PlayerActivitiesArray}"
+                    SelectedItem="{Binding SelectedActivity}" />
+                <Button
+                    Grid.Row="1"
+                    Grid.Column="1"
+                    Command="{Binding UpdatePlayerActivityCommand}"
+                    CommandParameter="{Binding SelectedItem, Source={x:Reference pickPlayerActivity}}"
+                    Text="Update Player" />
+            </Grid>-->
+
+            <Frame
+                Padding="0"
+                CornerRadius="0"
+                IsClippedToBounds="True"
+                ZIndex="1">
+                <Grid BackgroundColor="#001838">
+                    <!--  Content StackLayout with Grid  -->
+                    <Grid
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="30,150,0,0"
+                        WidthRequest="400"
+                        ZIndex="10">
+                        <Grid>
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="30"
+                                Text="Formation"
+                                TextColor="White" />
                         </Grid>
                     </Grid>
 
-                    <Frame CornerRadius="0"
-                           Padding="0"
-                           Margin="0"
-                           BorderColor="Transparent"
-                           BackgroundColor="Transparent"
-                           HeightRequest="200"
-                           VerticalOptions="End"
-                           ZIndex="-10">
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        CornerRadius="0"
+                        HeightRequest="200"
+                        VerticalOptions="End"
+                        ZIndex="-10">
                         <Frame.Background>
                             <LinearGradientBrush EndPoint="0,1">
-                                <GradientStop Color="Transparent"
-                                              Offset="0" />
-                                <GradientStop Color="#00204B"
-                                              Offset="0.3" />
-                                <GradientStop Color="#001025"
-                                              Offset="0.6" />
-                                <GradientStop Color="#000F22"
-                                              Offset="1" />
+                                <GradientStop Offset="0" Color="Transparent" />
+                                <GradientStop Offset="0.3" Color="#00204B" />
+                                <GradientStop Offset="0.6" Color="#001025" />
+                                <GradientStop Offset="1" Color="#000F22" />
                             </LinearGradientBrush>
                         </Frame.Background>
-                        <Image ZIndex="-15"
-                               Source="logos.png"
-                               Aspect="AspectFill"
-                               Opacity="0.03"
-                               HeightRequest="400"
-                               WidthRequest="400"
-                               TranslationX="200"
-                               TranslationY="-10" />
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="400"
+                            Opacity="0.03"
+                            Source="logos.png"
+                            TranslationX="200"
+                            TranslationY="-10"
+                            WidthRequest="400"
+                            ZIndex="-15" />
                     </Frame>
                 </Grid>
             </Frame>
-            <!-- Soccer Formation Grid -->
-            <Picker Margin="0,0,0,0"
-                    x:Name="FormationPicker"
-                    Title="Select Formation"
-                    BackgroundColor="#56B6FF"
-                    ItemsSource="{StaticResource FormationNames}"
-                    SelectedIndexChanged="FormationPicker_SelectedIndexChanged">
-            </Picker>
+            <!--  Soccer Formation Grid  -->
+            <Picker
+                x:Name="FormationPicker"
+                Title="Select Formation"
+                Margin="0,0,0,0"
+                BackgroundColor="#56B6FF"
+                ItemsSource="{StaticResource FormationNames}"
+                SelectedIndexChanged="FormationPicker_SelectedIndexChanged" />
             <Grid>
-                <Image ZIndex="-1"
-                       Source="formationfield.png"
-                       Aspect="AspectFill"
-                       Opacity="0.2"
-                       HeightRequest="390"
-                       WidthRequest="390" />
-                <Grid ZIndex="10"
-                      RowSpacing="15"
-                      ColumnSpacing="5"
-                      TranslationY="30">
+                <Image
+                    Aspect="AspectFill"
+                    HeightRequest="390"
+                    Opacity="0.2"
+                    Source="formationfield.png"
+                    WidthRequest="390"
+                    ZIndex="-1" />
+                <Grid
+                    ColumnSpacing="5"
+                    RowSpacing="15"
+                    TranslationY="30"
+                    ZIndex="10">
                     <Grid.RowDefinitions>
                         <RowDefinition Height="*" />
                         <RowDefinition Height="*" />
@@ -127,331 +284,427 @@
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
-                    <Grid x:Name="FormationGrid">
-                    </Grid>
+                    <Grid x:Name="FormationGrid" />
 
-                    <!--Attacking-->
-                    <Frame x:Name="SP"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label ZIndex="-1"
-                                   Text="9"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <!--  Attacking  -->
+                    <Frame
+                        x:Name="SP"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="SP"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding SP}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
 
-                    <Frame x:Name="LM"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="11"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+
+                    <Frame
+                        x:Name="LM"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="LM"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding LM}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
 
-                    <Frame x:Name="RM"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="7"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <Frame
+                        x:Name="RM"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="RM"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding RM}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-                    <!--MidField-->
-                    <Grid x:Name="CAM">
-                        <Frame  x:Name="ballIconFrame"
-                                HeightRequest="20"
-                                WidthRequest="20"
-                                CornerRadius="70"
-                                HorizontalOptions="Center"
-                                IsClippedToBounds="True"
-                                Padding="0"
-                                BackgroundColor="#262626"
-                                BorderColor="#D6D6D6"
-                                Margin="0,0,0,0"
-                                IsVisible="False"
-                                TranslationX="-20"
-                                TranslationY="20"
-                                ZIndex="10">
-                            <Image HeightRequest="10"
-                                   WidthRequest="10"
-                                   Source="ballicon.png"
-                                   ZIndex="11" />
-                        </Frame>
-                        <Frame  x:Name="assitsicon"
-                                HeightRequest="20"
-                                WidthRequest="20"
-                                CornerRadius="70"
-                                HorizontalOptions="Center"
-                                IsClippedToBounds="True"
-                                Padding="0"
-                                BackgroundColor="#262626"
-                                BorderColor="#D6D6D6"
-                                Margin="0,0,0,0"
-                                IsVisible="false"
-                                ZIndex="12">
-                            <Image HeightRequest="10"
-                                   WidthRequest="10"
-                                   Source="assisticon.png"
-                                   ZIndex="11" />
-                        </Frame>
-                        <Frame HeightRequest="50"
-                               WidthRequest="50"
-                               CornerRadius="70"
-                               HorizontalOptions="Center"
-                               IsClippedToBounds="True"
-                               Padding="0"
-                               BackgroundColor="#4a4a4a"
-                               Margin="0,0,0,0">
-                            <Grid>
-                                <Image Source=" ">
-                                    <Image.GestureRecognizers>
-                                        <DropGestureRecognizer AllowDrop="true"
-                                                               Drop="OnDrop" />
-                                        <TapGestureRecognizer Tapped="OnTapGestureRecognizerTapped"
-                                                              NumberOfTapsRequired="1" />
-                                        <TapGestureRecognizer Tapped="OnTapAssist"
-                                                              NumberOfTapsRequired="2" />
-
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Label Text="10"
-                                       ZIndex="-1"
-                                       TextColor="White"
-                                       HorizontalTextAlignment="Center"
-                                       Padding="15"
-                                       InputTransparent="True" />
-                            </Grid>
-                        </Frame>
-                    </Grid>
-
-                    <Frame x:Name="CML"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="6"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <!--  MidField  -->
+                    <Frame
+                        x:Name="CAM"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="CAM"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding CAM}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame
+                        x:Name="CML"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="CML"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding CML}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
 
-                    <Frame x:Name="CMR"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="8"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <Frame
+                        x:Name="CMR"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="CMR"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding CMR}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
-                    </Frame>
-                    <!--Defender-->
-                    <Frame x:Name="LB"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="5"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
-                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
 
-                    <Frame x:Name="RB"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="2"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <!--  Defender  -->
+                    <Frame
+                        x:Name="LB"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="LB"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding LB}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-
-                    <Frame x:Name="CBL"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="4"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <Frame
+                        x:Name="RB"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="RB"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding RB}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-
-                    <Frame x:Name="CBR"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="3"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15" />
+                    <Frame
+                        x:Name="CBL"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="CBL"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding CBL}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-                    <!--GoalKeeper-->
-                    <Grid x:Name="GK">
-                        <Frame HeightRequest="50"
-                               WidthRequest="50"
-                               CornerRadius="70"
-                               HorizontalOptions="Center"
-                               IsClippedToBounds="True"
-                               Padding="0"
-                               BackgroundColor="#4a4a4a"
-                               Margin="0,0,0,0">
-                            <Grid>
-                                <Image Source=" ">
-                                    <Image.GestureRecognizers>
-                                        <DropGestureRecognizer AllowDrop="true"
-                                                               Drop="OnDrop" />
-
-                                    </Image.GestureRecognizers>
-                                </Image>
-                                <Label Text="1"
-                                       ZIndex="-1"
-                                       TextColor="White"
-                                       HorizontalTextAlignment="Center"
-                                       Padding="15"
-                                       InputTransparent="True" />
-                            </Grid>
-                        </Frame>
-                    </Grid>
-
+                    <Frame
+                        x:Name="CBR"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="CBR"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding CBR}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <!--  GoalKeeper  -->
+                    <Frame
+                        x:Name="GK"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="GK"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding GK}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
                 </Grid>
             </Grid>
-            <Label Padding="20,0,0,0"
-                   Margin="0,20,0,0"
-                   Text="Bench"
-                   BackgroundColor="#56B6FF" />
-            <Grid Padding="10"
-                  Margin="0,0,0,0"
-                  BackgroundColor="#56B6FF">
-
-                <Grid RowSpacing="15"
-                      ColumnSpacing="5">
+            <Label
+                Margin="0,20,0,0"
+                Padding="20,0,0,0"
+                BackgroundColor="#56B6FF"
+                Text="Bench" />
+            <Grid
+                Margin="0,0,0,0"
+                Padding="10"
+                BackgroundColor="#56B6FF">
+                <!--  this should be bound to players without a position  -->
+                <Grid ColumnSpacing="5" RowSpacing="15">
                     <Grid.ColumnDefinitions>
                         <ColumnDefinition Width="*" />
                         <ColumnDefinition Width="*" />
@@ -460,323 +713,255 @@
                         <ColumnDefinition Width="*" />
                     </Grid.ColumnDefinitions>
 
-                    <Frame HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Grid>
-                            <Image HeightRequest="50"
-                                   WidthRequest="50"
-                                   Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                    <DragGestureRecognizer DragStarting="OnDragStarting" />
-                                </Image.GestureRecognizers>
-                            </Image>
-                            <Label Text="12"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15"
-                                   InputTransparent="True" />
+                    <Frame
+                        x:Name="BankOne"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        AutomationId="BankOne"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding BankOne}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        WidthRequest="50">
+                        <Grid x:DataType="poco:Player">
+                            <Grid.RowDefinitions>
+                                <RowDefinition Height="auto" />
+                                <RowDefinition />
+                            </Grid.RowDefinitions>
+                            <Image
+                                HeightRequest="50"
+                                Source="{Binding Path=ProfileImageBytes, Converter={StaticResource BytesToImageConverter}, Mode=OneWay}"
+                                WidthRequest="50"
+                                ZIndex="0" />
+                            <Label
+                                Grid.Row="1"
+                                Padding="15"
+                                FontSize="10"
+                                HorizontalTextAlignment="Center"
+                                Text="{Binding Path=FullName, Mode=OneWay}"
+                                TextColor="Red"
+                                ToolTipProperties.Text="{Binding Path=FullName, Mode=OneWay}"
+                                ZIndex="1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <DragGestureRecognizer CanDrag="True" DragStarting="OnDragStarting" />
+                            <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding .}" />
+                            <!--<TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}"
+                                                  CommandParameter="{Binding .}" />-->
+                            <DropGestureRecognizer AllowDrop="true" Drop="OnDrop" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-                    <Frame Grid.Column="1"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
+                    <Frame
+                        Grid.Row="0"
+                        Grid.Column="1"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        x:DataType="poco:Player"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding SP}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        IsClippedToBounds="True"
+                        WidthRequest="50">
                         <Grid>
-                            <Image HeightRequest="50"
-                                   WidthRequest="50"
-                                   Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                    <DragGestureRecognizer DragStarting="OnDragStarting" />
-                                </Image.GestureRecognizers>
+                            <Image HeightRequest="50" WidthRequest="50">
+                                <Image.Behaviors>
+                                    <behavior:PlayerImageLoaderBehavior UserId="{Binding UserId}" />
+                                </Image.Behaviors>
                             </Image>
-                            <Label Text="13"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15"
-                                   InputTransparent="True" />
+                            <Label
+                                Padding="15"
+                                HorizontalTextAlignment="Center"
+                                InputTransparent="True"
+                                Text="{Binding PlayerNumber, FallbackValue=0}"
+                                TextColor="White"
+                                ZIndex="-1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <DropGestureRecognizer AllowDrop="true" DropCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DropCommand}" />
+                            <DragGestureRecognizer DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DragStartingCommand}" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-                    <Frame Grid.Column="2"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
+                    <Frame
+                        Grid.Row="0"
+                        Grid.Column="2"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        x:DataType="poco:Player"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding RM}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        IsClippedToBounds="True"
+                        WidthRequest="50">
                         <Grid>
-                            <Image HeightRequest="50"
-                                   WidthRequest="50"
-                                   Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                    <DragGestureRecognizer DragStarting="OnDragStarting" />
-                                </Image.GestureRecognizers>
+                            <Image HeightRequest="50" WidthRequest="50">
+                                <Image.Behaviors>
+                                    <behavior:PlayerImageLoaderBehavior UserId="{Binding UserId}" />
+                                </Image.Behaviors>
                             </Image>
-                            <Label Text="14"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15"
-                                   InputTransparent="True" />
+                            <Label
+                                Padding="15"
+                                HorizontalTextAlignment="Center"
+                                InputTransparent="True"
+                                Text="{Binding PlayerNumber, FallbackValue=0}"
+                                TextColor="White"
+                                ZIndex="-1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <DropGestureRecognizer AllowDrop="true" DropCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DropCommand}" />
+                            <DragGestureRecognizer DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DragStartingCommand}" />
+                        </Frame.GestureRecognizers>
                     </Frame>
-
-                    <Frame Grid.Column="3"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
+                    <Frame
+                        Grid.Row="0"
+                        Grid.Column="3"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        x:DataType="poco:Player"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding LB}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        IsClippedToBounds="True"
+                        WidthRequest="50">
                         <Grid>
-                            <Image HeightRequest="50"
-                                   WidthRequest="50"
-                                   Source=" ">
-                                <Image.GestureRecognizers>
-                                    <DropGestureRecognizer AllowDrop="true"
-                                                           Drop="OnDrop" />
-                                    <DragGestureRecognizer DragStarting="OnDragStarting" />
-                                </Image.GestureRecognizers>
+                            <Image HeightRequest="50" WidthRequest="50">
+                                <Image.Behaviors>
+                                    <behavior:PlayerImageLoaderBehavior UserId="{Binding UserId}" />
+                                </Image.Behaviors>
                             </Image>
-                            <Label Text="15"
-                                   ZIndex="-1"
-                                   TextColor="White"
-                                   HorizontalTextAlignment="Center"
-                                   Padding="15"
-                                   InputTransparent="True" />
+                            <Label
+                                Padding="15"
+                                HorizontalTextAlignment="Center"
+                                InputTransparent="True"
+                                Text="{Binding PlayerNumber}"
+                                TextColor="White"
+                                ZIndex="-1" />
                         </Grid>
+                        <Frame.GestureRecognizers>
+                            <DropGestureRecognizer AllowDrop="true" DropCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DropCommand}" />
+                            <DragGestureRecognizer DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DragStartingCommand}" />
+                        </Frame.GestureRecognizers>
+                    </Frame>
+                    <Frame
+                        Grid.Row="0"
+                        Grid.Column="4"
+                        Margin="0,0,0,0"
+                        Padding="0"
+                        x:DataType="poco:Player"
+                        BackgroundColor="#4a4a4a"
+                        BindingContext="{Binding RB}"
+                        CornerRadius="70"
+                        HeightRequest="50"
+                        HorizontalOptions="Center"
+                        IsClippedToBounds="True"
+                        WidthRequest="50">
+                        <Grid>
+                            <Image HeightRequest="50" WidthRequest="50">
+                                <Image.Behaviors>
+                                    <behavior:PlayerImageLoaderBehavior UserId="{Binding UserId}" />
+                                </Image.Behaviors>
+                            </Image>
+                            <Label
+                                Padding="15"
+                                HorizontalTextAlignment="Center"
+                                InputTransparent="True"
+                                Text="{Binding PlayerNumber}"
+                                TextColor="White"
+                                ZIndex="-1" />
+                        </Grid>
+                        <Frame.GestureRecognizers>
+                            <DropGestureRecognizer AllowDrop="true" DropCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DropCommand}" />
+                            <DragGestureRecognizer DragStartingCommand="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=DragStartingCommand}" />
+                        </Frame.GestureRecognizers>
                     </Frame>
                 </Grid>
             </Grid>
 
             <Grid>
                 <Label Text="All players" />
-                <Grid ZIndex="10"
-                      RowSpacing="15"
-                      ColumnSpacing="5"
-                      TranslationY="30">
-                    <Grid.RowDefinitions>
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                        <RowDefinition Height="*" />
-                    </Grid.RowDefinitions>
+                <Grid>
+                    <CollectionView IsEnabled="True" ItemsSource="{Binding PlayersWithoutPosition, Mode=TwoWay}">
+                        <CollectionView.ItemsLayout>
+                            <GridItemsLayout Orientation="Vertical" Span="5" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="poco:Player">
+                                <Frame
+                                    BackgroundColor="Transparent"
+                                    BorderColor="Transparent"
+                                    CornerRadius="70"
+                                    HeightRequest="100"
+                                    WidthRequest="60">
+                                    <Grid
+                                        Grid.Row="0"
+                                        Grid.Column="1"
+                                        Margin="0,0,0,0"
+                                        Padding="0"
+                                        HorizontalOptions="Center"
+                                        VerticalOptions="Center"
+                                        WidthRequest="60">
+                                        <!--  Image with frame  -->
+                                        <Frame
+                                            Margin="0"
+                                            Padding="0"
+                                            BackgroundColor="#4a4a4a"
+                                            CornerRadius="70"
+                                            HeightRequest="50"
+                                            HorizontalOptions="Center"
+                                            IsClippedToBounds="True"
+                                            VerticalOptions="Center"
+                                            WidthRequest="50">
+                                            <Grid>
+                                                <Image
+                                                    HeightRequest="50"
+                                                    Source="{Binding ProfileImageBytes, Converter={x:StaticResource Key=BytesToImageConverter}, Mode=OneWay}"
+                                                    WidthRequest="50" />
 
-                    <Grid.ColumnDefinitions>
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                        <ColumnDefinition Width="*" />
-                    </Grid.ColumnDefinitions>
+                                            </Grid>
+                                        </Frame>
+                                        <Frame
+                                            Padding="0"
+                                            BackgroundColor="#2AF7B9"
+                                            CornerRadius="10"
+                                            HasShadow="False"
+                                            HeightRequest="15"
+                                            TranslationX="20"
+                                            TranslationY="-10"
+                                            WidthRequest="20">
+                                            <Label
+                                                Padding="0"
+                                                FontSize="10"
+                                                HorizontalOptions="Center"
+                                                Text="{Binding PlayerAttitude}"
+                                                TextColor="White"
+                                                VerticalOptions="Center" />
+                                        </Frame>
+                                        <!--  Name label below the image frame  -->
+                                        <Label
+                                            Grid.Row="1"
+                                            Margin="0,80,0,0"
+                                            FontSize="10"
+                                            HorizontalOptions="Center"
+                                            Text="{Binding FirstName}"
+                                            TextColor="White"
+                                            VerticalOptions="Center" />
 
-                    <Frame HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="gk.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="1"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="cam.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="2"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="cbl.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="3"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="cbr.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="4"
-                           Grid.Row="0"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="cdm.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="0"
-                           Grid.Row="1"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="cm.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="1"
-                           Grid.Row="1"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="20"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="lb.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="2"
-                           Grid.Row="1"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="rb.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="3"
-                           Grid.Row="1"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="rm.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
-                    <Frame Grid.Column="4"
-                           Grid.Row="1"
-                           HeightRequest="50"
-                           WidthRequest="50"
-                           CornerRadius="70"
-                           HorizontalOptions="Center"
-                           IsClippedToBounds="True"
-                           Padding="0"
-                           BackgroundColor="#4a4a4a"
-                           Margin="0,0,0,0">
-                        <Image HeightRequest="50"
-                               WidthRequest="50"
-                               Source="sp.png">
-                            <Image.GestureRecognizers>
-                                <DragGestureRecognizer DragStarting="OnDragStarting" />
-                            </Image.GestureRecognizers>
-                        </Image>
-                    </Frame>
+
+                                    </Grid>
+                                    <Frame.GestureRecognizers>
+                                        <TapGestureRecognizer Command="{Binding Source={RelativeSource AncestorType={x:Type model:FormationCoachViewModel}}, Path=GetSelectedPlayerGameMotivationCommand}" CommandParameter="{Binding}" />
+                                        <DragGestureRecognizer CanDrag="True" DragStarting="OnDragStarting" />
+                                    </Frame.GestureRecognizers>
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
                 </Grid>
             </Grid>
         </VerticalStackLayout>

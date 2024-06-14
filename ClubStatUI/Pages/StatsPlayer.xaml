@@ -1,35 +1,73 @@
 <?xml version="1.0" encoding="utf-8" ?>
-<ContentPage xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             x:Class="ClubStatUI.Pages.StatsPlayer"
-             Title="StatsPlayer">
+<ContentPage
+    x:Class="ClubStatUI.Pages.StatsPlayer"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:model="clr-namespace:ClubStatUI.ViewModels"
+    xmlns:poco="clr-namespace:ClubStat.Infrastructure.Models;assembly=ClubStat.Infrastructure"
+    Title="StatsPlayer"
+    x:DataType="model:StatsPlayerViewModel">
     <ScrollView>
         <VerticalStackLayout BackgroundColor="#001838">
-            <Frame Padding="0" CornerRadius="0" IsClippedToBounds="True" ZIndex="1">
-                <Grid BackgroundColor="#002855" >
-                    <!-- Content StackLayout with Grid -->
-                    <StackLayout Grid.Row="0" Grid.Column="0" Padding="30,150,0,0" WidthRequest="400" ZIndex="10" >
+            <Frame
+                Padding="0"
+                CornerRadius="0"
+                IsClippedToBounds="True"
+                ZIndex="1">
+                <Grid BackgroundColor="#002855">
+                    <!--  Content StackLayout with Grid  -->
+                    <StackLayout
+                        Grid.Row="0"
+                        Grid.Column="0"
+                        Padding="30,150,0,0"
+                        WidthRequest="400"
+                        ZIndex="10">
                         <Grid>
-                            <Label FontSize="30" TextColor="White" FontAttributes="Bold" Text="Statestieken" />
+                            <Label
+                                FontAttributes="Bold"
+                                FontSize="30"
+                                Text="Statestieken"
+                                TextColor="White" />
                         </Grid>
                     </StackLayout>
 
-                    <Frame CornerRadius="0" Padding="0" Margin="0" BorderColor="Transparent" BackgroundColor="Transparent" HeightRequest="200" VerticalOptions="End" ZIndex="-10">
+                    <Frame
+                        Margin="0"
+                        Padding="0"
+                        BackgroundColor="Transparent"
+                        BorderColor="Transparent"
+                        CornerRadius="0"
+                        HeightRequest="200"
+                        VerticalOptions="End"
+                        ZIndex="-10">
                         <Frame.Background>
                             <LinearGradientBrush EndPoint="0,1">
-                                <GradientStop Color="Transparent" Offset="0" />
-                                <GradientStop Color="#00204B" Offset="0.3" />
-                                <GradientStop Color="#001025" Offset="0.6" />
-                                <GradientStop Color="#000F22" Offset="1" />
+                                <GradientStop Offset="0" Color="Transparent" />
+                                <GradientStop Offset="0.3" Color="#00204B" />
+                                <GradientStop Offset="0.6" Color="#001025" />
+                                <GradientStop Offset="1" Color="#000F22" />
                             </LinearGradientBrush>
                         </Frame.Background>
-                        <Image ZIndex="-15" Source="logos.png" Aspect="AspectFill" Opacity="0.03" HeightRequest="400" WidthRequest="400" TranslationX="200" TranslationY="-10" />
+                        <Image
+                            Aspect="AspectFill"
+                            HeightRequest="400"
+                            Opacity="0.03"
+                            Source="logos.png"
+                            TranslationX="200"
+                            TranslationY="-10"
+                            WidthRequest="400"
+                            ZIndex="-15" />
                     </Frame>
                 </Grid>
             </Frame>
-            <StackLayout Grid.Row="0" Grid.Column="0" Padding="30,0,30,50" WidthRequest="400" ZIndex="10" >
+            <StackLayout
+                Grid.Row="0"
+                Grid.Column="0"
+                Padding="30,0,30,50"
+                WidthRequest="400"
+                ZIndex="10">
                 <Grid>
-                    <!-- Define three rows with equal height -->
+                    <!--  Define three rows with equal height  -->
                     <Grid.RowDefinitions>
                         <RowDefinition Height="1*" />
                         <RowDefinition Height="1*" />
@@ -38,53 +76,212 @@
                         <RowDefinition Height="1*" />
                     </Grid.RowDefinitions>
 
-                    <!-- First Row -->
-                    <StackLayout Grid.Row="0" Margin="0,10,0,0"  BackgroundColor="#042450">
+                    <!--  First Row  -->
+                    <StackLayout
+                        Grid.Row="0"
+                        Margin="0,10,0,0"
+                        BackgroundColor="#042450">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="20" Padding="10" FontAttributes="Bold" Text="Sprints" VerticalOptions="Center"/>
-                            <Label TextColor="#56B6FF"  Grid.Column="1" FontSize="20" Padding="10" FontAttributes="Bold" Text="12 km/h" HorizontalOptions="End" />
+                            <Label
+                                Grid.Column="0"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="Sprints"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalOptions="End"
+                                Text="{Binding Statistics.Sprints}"
+                                TextColor="#56B6FF" />
                         </Grid>
 
                     </StackLayout>
-                    <!-- Second Row -->
-                    <StackLayout Grid.Row="1" Margin="0,10,0,0"  BackgroundColor="#042450">
+                    <!--  Second Row  -->
+                    <StackLayout
+                        Grid.Row="1"
+                        Margin="0,10,0,0"
+                        BackgroundColor="#042450">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="20" Padding="10" FontAttributes="Bold" Text="Snelheid" VerticalOptions="Center"/>
-                            <Label TextColor="#56B6FF"  Grid.Column="1" FontSize="20" Padding="10" FontAttributes="Bold" Text="9 km/h" HorizontalOptions="End" />
+                            <Label
+                                Grid.Column="0"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="Snelheid"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalOptions="End"
+                                Text="{Binding Statistics.TopSpeed}"
+                                TextColor="#56B6FF" />
                         </Grid>
 
                     </StackLayout>
-                    <!-- Third Row -->
-                    <StackLayout Grid.Row="2" Margin="0,10,0,0"  BackgroundColor="#042450">
+                    <!--  Third Row  -->
+                    <StackLayout
+                        Grid.Row="2"
+                        Margin="0,10,0,0"
+                        BackgroundColor="#042450">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" FontSize="19" Padding="10" FontAttributes="Bold" Text="Hoogste snelheid" VerticalOptions="Center"/>
-                            <Label TextColor="#56B6FF"  Grid.Column="1" FontSize="20" Padding="10" FontAttributes="Bold" Text="45 km/h" HorizontalOptions="End" />
+                            <Label
+                                Grid.Column="0"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="19"
+                                Text="Mediaan snelheid"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalOptions="End"
+                                   Text="{Binding Statistics.MedianSpeed}"
+                                   TextColor="#56B6FF" />
                         </Grid>
                     </StackLayout>
-                    <StackLayout Grid.Row="3" Margin="0,10,0,0"  BackgroundColor="#042450">
+                    <StackLayout
+                        Grid.Row="3"
+                        Margin="0,10,0,0"
+                        BackgroundColor="#042450">
                         <Grid>
                             <Grid.ColumnDefinitions>
-                                <ColumnDefinition Width="1*"/>
-                                <ColumnDefinition Width="1*"/>
+                                <ColumnDefinition Width="1*" />
+                                <ColumnDefinition Width="1*" />
                             </Grid.ColumnDefinitions>
-                            <Label TextColor="White" Grid.Column="0" Padding="10" FontSize="20" FontAttributes="Bold" Text="Gem snelheid" VerticalOptions="Center"/>
-                            <Label TextColor="#56B6FF"  Grid.Column="1" Padding="10" FontSize="20" FontAttributes="Bold" Text="25 km/h" HorizontalOptions="End" />
+                            <Label
+                                Grid.Column="0"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                Text="Gem snelheid"
+                                TextColor="White"
+                                VerticalOptions="Center" />
+                            <Label
+                                Grid.Column="1"
+                                Padding="10"
+                                FontAttributes="Bold"
+                                FontSize="20"
+                                HorizontalOptions="End"
+                                Text="{Binding Statistics.AverageSpeed}"
+                                TextColor="#56B6FF" />
                         </Grid>
                     </StackLayout>
                 </Grid>
             </StackLayout>
+            <StackLayout BackgroundColor="#001025"
+                Grid.Row="0"
+                         Grid.Column="0"
+                         Padding="10,10,10,10"
+                         ZIndex="10">
+                <StackLayout Orientation="Horizontal"
+                             HorizontalOptions="CenterAndExpand"
+                             Padding="0,0,0,10">
+                    <Button Text="Start"
+                            Command="{Binding StartCommand}"
+                            BackgroundColor="#028A0F"
+                            TextColor="White" />
+                    <Button Text="Stop"
+                            Command="{Binding StopCommand}"
+                            BackgroundColor="#FF0000"
+                            TextColor="White"
+                            Margin="20,0,0,0" />
+                </StackLayout>
+                <Grid Padding="10">
+                    <Grid.ColumnDefinitions>
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                        <ColumnDefinition Width="1*" />
+                    </Grid.ColumnDefinitions>
+                    <Grid.RowDefinitions>
+                        <RowDefinition Height="Auto" />
+                        <!-- First row with Auto height -->
+                        <RowDefinition Height="*" />
+                    </Grid.RowDefinitions>
+
+                    <Label FontSize="Medium"
+                           Text="{Binding Path=CurrentGame.CurrentLocation.Recorded, Converter={StaticResource UtcToLocalDateTimeConverter}, StringFormat='{0:t}' }"
+                           TextColor="White"
+                           Margin="10,0"
+                           VerticalOptions="Center"
+                           Grid.Column="0" />
+                    <!-- Ensure Label is in the first column -->
+
+                    <Label FontSize="Medium"
+                           Text="{Binding Path=CurrentGame.CurrentLocation.Recorded, Converter={StaticResource UtcToLocalDateTimeConverter}, StringFormat='{0:t}' }"
+                           TextColor="White"
+                           Margin="10,0"
+                           VerticalOptions="Center"
+                           Grid.Column="0" />
+
+                    <Label FontSize="Medium"
+                           Text="{Binding Path=CurrentGame.CurrentLocation.Lat, Mode=OneWay }"
+                           TextColor="White"
+                           Margin="10,0"
+                           VerticalOptions="Center"
+                           Grid.Column="1" />
+
+
+                    <Label FontSize="Medium"
+                           Text="{Binding Path=CurrentGame.CurrentLocation.Lng, Mode=OneWay }"
+                           TextColor="White"
+                           Margin="10,0"
+                           VerticalOptions="Center"
+                           Grid.Column="2" />
+
+
+                </Grid>
+              
+                <AbsoluteLayout HeightRequest="200">
+                    <Image Source="field.png"
+                           Aspect="AspectFill"
+                           HeightRequest="200"
+                           AbsoluteLayout.LayoutBounds="0,0,1,1"
+                           AbsoluteLayout.LayoutFlags="All" />
+                    <CollectionView ItemsSource="{Binding Locations}">
+                        <CollectionView.ItemsLayout>
+                            <!-- Use GridLayout to allow free movement in both directions -->
+                            <GridItemsLayout Orientation="Horizontal"
+                                             Span="6" />
+                        </CollectionView.ItemsLayout>
+                        <CollectionView.ItemTemplate>
+                            <DataTemplate x:DataType="poco:PlayerMovement">
+                                <Frame HeightRequest="15"
+                                       WidthRequest="15"
+                                       BackgroundColor="LightGreen"
+                                       CornerRadius="30"
+                                       TranslationX="{Binding Longitude}"
+                                       TranslationY="{Binding Latitude}">
+                                </Frame>
+                            </DataTemplate>
+                        </CollectionView.ItemTemplate>
+                    </CollectionView>
+                </AbsoluteLayout>
+                
+            </StackLayout>
+          
         </VerticalStackLayout>
     </ScrollView>
 </ContentPage>

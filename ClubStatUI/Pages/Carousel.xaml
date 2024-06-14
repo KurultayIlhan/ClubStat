@@ -35,9 +35,10 @@
                                    Padding="0,20,0,20"
                            TextColor="White"/>
                                 <!-- Button -->
-                            <Button Text="Get started"
-                            BackgroundColor="#56B6FF"
-                            TextColor="White" />
+                            <Button BackgroundColor="#2AF7B9"
+                                    Clicked="btnLoginPage"
+                                    Text="Opstelling"
+                                    TextColor="#001838" />
                         </StackLayout>
                     </Grid>
                 </DataTemplate>

@@ -1,80 +1,46 @@
+// ***********************************************************************
+// Assembly         : ClubStatUI
+// Author           : Ilhan Kurultay
+// Created          : Sat 11-May-2024
+//
+// Last Modified By : Ilhan Kurultay
+// Last Modified On : Wed 05-Jun-2024
+// ***********************************************************************
+// <copyright file="FormationCoach.xaml.cs" company="Ilhan Kurultay">
+//     Copyright (c) Ilhan Kurultay. All rights reserved.
+// </copyright>
+// <summary></summary>
+// ***********************************************************************
+using ClubStat.Infrastructure;
+using ClubStat.Infrastructure.Models;
+
 namespace ClubStatUI.Pages;
 
 public partial class FormationCoach : ContentPage
 {
-    private bool _singleTapWaiting = false;
+    
     private List<Frame> _assistIconFrames = new List<Frame>();
+
+
     public string DefaultFormation { get; set; } = "4-2-3-1";
-    public FormationCoach()
+    public FormationCoach(FormationCoachViewModel model)
     {
         InitializeComponent();
+        BindingContext = model;
         UpdateFormationGrid("4-2-3-1"); // Set default formation
+        Loaded += FormationCoach_Loaded;
+
     }
 
-    private async void OnTapGestureRecognizerTapped(object sender, EventArgs e)
+    private async void FormationCoach_Loaded(object? sender, EventArgs e)
     {
-        if (!_singleTapWaiting)
+        if (BindingContext is ILoadAsync loader)
         {
-
-            ballIconFrame.IsVisible = !ballIconFrame.IsVisible;
-
-
-            _singleTapWaiting = true;
-
-
-            await Task.Delay(200);
-
-            _singleTapWaiting = false;
+            await loader.ExecuteAsync().ConfigureAwait(true);
         }
     }
 
-    [Obsolete]
-    private void OnTapAssist(object sender, EventArgs e)
-    {
-
-        Frame newAssistIconFrame = new Frame
-        {
-            HeightRequest = 20,
-            WidthRequest = 20,
-            CornerRadius = 70,
-            HorizontalOptions = LayoutOptions.Center,
-            IsClippedToBounds = true,
-            Padding = 0,
-            TranslationX = 50,
-            TranslationY = 20,
-            BackgroundColor = Color.FromHex("#262626"),
-            BorderColor = Color.FromHex("#D6D6D6"),
-            Margin = new Thickness(0, 0, 0, 0),
-            ZIndex = 14,
-            IsVisible = true
-        };
-
-
-        Image assistIcon = new Image
-        {
-            HeightRequest = 10,
-            WidthRequest = 10,
-            Source = "assisticon.png",
-            ZIndex = 11
-        };
-
-
-        newAssistIconFrame.Content = assistIcon;
-
-
-        double offsetX = _assistIconFrames.Count * 10;
-        int offsetZ = _assistIconFrames.Count + 1;
-
-
-        newAssistIconFrame.TranslationX = offsetX;
-        newAssistIconFrame.ZIndex = offsetZ;
-
-
-        CAM.Children.Add(newAssistIconFrame);
-    }
-
-
-
+    
     private void FormationPicker_SelectedIndexChanged(object sender, EventArgs e)
     {
         string? selectedFormation = FormationPicker.SelectedItem as string;
@@ -84,36 +50,6 @@ public partial class FormationCoach : ContentPage
         }
     }
 
-    private void OnDragStarting(object sender, DragStartingEventArgs e)
-    {
-        var image = sender as Image;
-        if (image != null)
-        {
-            var draggedImageSource = image.Source as FileImageSource;
-            if (draggedImageSource != null)
-            {
-
-                e.Data.Properties.Add("ImageSource", draggedImageSource.File);
-            }
-        }
-    }
-    private void OnDrop(object sender, DropEventArgs e)
-    {
-        if (e.Data.Properties.ContainsKey("ImageSource"))
-        {
-            var draggedImageSource = e.Data.Properties["ImageSource"] as string;
-
-            if (draggedImageSource != null)
-            {
-                var dropFrame = sender as Frame;
-                var image = dropFrame.Content as Image;
-                if (image != null)
-                {
-                    image.Source = draggedImageSource;
-                }
-            }
-        }
-    }
 
     private void UpdateFormationGrid(string formation)
     {
@@ -245,5 +181,31 @@ public partial class FormationCoach : ContentPage
 
         }
     }
+
+    private async void OnDragStarting(object sender, DragStartingEventArgs e)
+    {
+        if (sender is DragGestureRecognizer recognizer && recognizer.Parent.BindingContext is Player player)
+        {
+            e.Data.Properties["Player"] = player;
+            e.Data.Text = player.FullName;
+            if (BindingContext is FormationCoachViewModel viewModel)
+            {
+                await viewModel.OnDragStarting(e).ConfigureAwait(true);
+            }
+        }
+    }
+    private async void OnDrop(object sender, DropEventArgs e)
+    {
+        if (sender is DropGestureRecognizer recognizer)
+        {
+            var name = recognizer.Parent.AutomationId;
+
+            if (BindingContext is FormationCoachViewModel viewModel && e.Data.Properties["Player"] is Player newPlayer)
+            {
+               await viewModel.MovePlayerOffField(name, newPlayer).ConfigureAwait(true);
+            }            
+        }
+    }
+
 }
 

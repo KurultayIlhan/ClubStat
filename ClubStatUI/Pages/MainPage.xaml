@@ -4,7 +4,10 @@
              xmlns:local="clr-namespace:ClubStatUI.ViewModels"
              x:DataType="local:LoginViewModel"
              x:Class="ClubStatUI.Pages.MainPage"
-             BackgroundImageSource="vector.png">
+             BackgroundImageSource="vector.png"
+             Shell.FlyoutBehavior="Disabled"
+             Title="ClubStat"
+             Shell.NavBarIsVisible="False">
 
     <ScrollView>
         <StackLayout>
