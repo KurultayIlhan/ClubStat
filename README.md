@@ -16,3 +16,7 @@ Open the solution and you will see that there are 8 folders.
 6: ClubStatUI
 7: ClubStatUITests
 8: ClubStat.IntegrationTest
+
+The one you will need to use will be ClubStatUI. ClubStatUI is the front-end part of the project where the viewmodel gives the information to the view and the view or xaml displays is.
+To use it on your phone you will require more steps: Firstly check if your phone is enabled for Developer options. So not you can easily open it following this: https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/
+[![Open Developer Option]([https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white]([https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/))](https://katherineoelsner.com/](https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/))
