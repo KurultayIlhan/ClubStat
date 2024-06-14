@@ -19,7 +19,8 @@ namespace ClubStat.Infrastructure.Models.Tests
             var location = new PlayerDynamicsLocation(
                              lat: 50.833862598105696m
                             ,lng: 4.440449089283627m
-                            ,recorded: DateTime.Now
+                            , matchId: 1
+                            , recorded: DateTime.Now
                             ,playerId: Guid.Parse("93e14140-d603-ef11-868d-c8e26574d4f6")
                             );
             var json= location.AsJson();
@@ -46,12 +47,14 @@ namespace ClubStat.Infrastructure.Models.Tests
                 new PlayerDynamicsLocation(
                              lat: 50.833872m
                             ,lng: 4.44044918m
+                            ,matchId: 1
                             ,recorded: DateTime.Now
                             ,playerId: Guid.Parse("93e14140-d603-ef11-868d-c8e26574d4f6")
                             ),
                 new PlayerDynamicsLocation(
                          lat: 50.8338625m
                         ,lng: 4.44044908m
+                        ,matchId: 1
                         ,recorded: DateTime.Now.AddSeconds(1)
                         ,playerId: Guid.Parse("93e14140-d603-ef11-868d-c8e26574d4f6")
                         )

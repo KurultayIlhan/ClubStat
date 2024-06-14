@@ -52,7 +52,7 @@ namespace ClubStat.Infrastructure.Factories.Tests
 
             var sut = _service.GetRequiredService<IPlayerRecorder>();
             Assert.IsNotNull(sut);
-            PlayerDynamicsLocation location = new(5.0M, 4.2M, match!.MatchDate.AddSeconds(1), login.UserId); 
+            PlayerDynamicsLocation location = new(5.0M, 4.2M, match!.MatchDate.AddSeconds(1), match.MatchId, login.UserId); 
             sut.RecordLocation(login, match, location);
 
             //wait for the background service to upload data
