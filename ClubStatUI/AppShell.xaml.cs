@@ -1,9 +1,9 @@
 ﻿// ***********************************************************************
 // Assembly         : ClubStatUI
-// Author           : erte0
+// Author           : Ilhan Kurultay
 // Created          : 02-09-2024
 //
-// Last Modified By : erte0
+// Last Modified By : Ilhan Kurultay
 // Last Modified On : 02-20-2024
 // ***********************************************************************
 // <copyright file="AppShell.xaml.cs" company="ClubStatUI">

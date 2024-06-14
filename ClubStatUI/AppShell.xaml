@@ -11,26 +11,24 @@
     <ShellContent Title="MainPage"
                   ContentTemplate="{DataTemplate local:MainPage}"
                   Route="MainPage" />
-    <TabBar x:Name="MyTabBar" >
-        <Tab Title="MainPage">
-            <ShellContent ContentTemplate="{DataTemplate local:MainPage}"
-                          Route="MainPage" />
-        </Tab>
+    <TabBar x:Name="MyTabBar">
+
         <Tab Icon="navhome.png">
             <ShellContent ContentTemplate="{DataTemplate local:DashboardPlayer}" Route="DashboardPlayer" />
         </Tab>
+
         <Tab Icon="navacc.png">
             <ShellContent ContentTemplate="{DataTemplate local:ProfilePlayer}" Route="ProfilePlayer" />
         </Tab>
         <Tab  Icon="navstats.png">
             <ShellContent ContentTemplate="{DataTemplate local:StatsPlayer}" Route="StatsPlayer" />
         </Tab>
-        <!--<Tab  Icon="navteam.png">
+        <Tab  Icon="navteam.png">
             <ShellContent ContentTemplate="{DataTemplate local:TeamPlayer}" Route="TeamPlayer" />
-        </Tab>-->
-        <Tab Title="Coach">
-            <ShellContent ContentTemplate="{DataTemplate local:DashboardCoach}"
-                          Route="DashboardCoach" />
+        </Tab>
+        <Tab  Icon="navagenda.png">
+            <ShellContent ContentTemplate="{DataTemplate local:AgendaPlayer}"
+                          Route="AgendaPlayer" />
         </Tab>
     </TabBar>
 

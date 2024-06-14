@@ -1,10 +1,17 @@
-﻿<?xml version = "1.0" encoding = "UTF-8" ?>
-<Application xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
-             xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
-             xmlns:local="clr-namespace:ClubStatUI"
-             x:Class="ClubStatUI.App">
+﻿<?xml version="1.0" encoding="UTF-8" ?>
+<Application
+    x:Class="ClubStatUI.App"
+    xmlns="http://schemas.microsoft.com/dotnet/2021/maui"
+    xmlns:x="http://schemas.microsoft.com/winfx/2009/xaml"
+    xmlns:converters="clr-namespace:ClubStatUI.Converter"
+    xmlns:local="clr-namespace:ClubStatUI">
     <Application.Resources>
+
         <ResourceDictionary>
+            <converters:UtcToLocalDateTimeConverter x:Key="UtcToLocalDateTimeConverter" />
+            <converters:BooleanToVisibilityConverter x:Key="BooleanToVisibilityConverter" />
+            <converters:BytesToImageConverter x:Key="BytesToImageConverter" />
+
             <ResourceDictionary.MergedDictionaries>
                 <ResourceDictionary Source="Resources/Styles/Colors.xaml" />
                 <ResourceDictionary Source="Resources/Styles/Styles.xaml" />

@@ -1,7 +1,8 @@
-<Project Sdk="Microsoft.NET.Sdk">
+﻿<Project Sdk="Microsoft.NET.Sdk">
 
 	<PropertyGroup>
 		<TargetFrameworks>net8.0-android;net8.0-ios;</TargetFrameworks>
+		<!--<TargetFrameworks Condition="$([MSBuild]::IsOSPlatform('windows'))">$(TargetFrameworks);net8.0-windows10.0.19041.0</TargetFrameworks>-->
 		<!-- Uncomment to also build the tizen app. You will need to install tizen by following this: https://github.com/Samsung/Tizen.NET -->
 		<!-- <TargetFrameworks>$(TargetFrameworks);net8.0-tizen</TargetFrameworks> -->
 
@@ -22,23 +23,13 @@
 		<!-- Display name -->
 		<ApplicationTitle>ClubStatUI</ApplicationTitle>
 
+
+		<Title>Infrastructure Library For ClubStat Mobile App</Title>
+		<Authors>Ilhan Kurultay</Authors>
+		<Company>Private eigendom Ilhan Kurultay</Company>
+		<Copyright>2024  © Ilhan Kurultay All rights reserved</Copyright>
 		
-		    <Title>Infrastructure Library For ClubStat Mobile App</Title>
-    <Authors>Ilhan Kurultay</Authors>
-    <Company>Private eigendom Ilhan Kurultay</Company>
-    <Copyright>2024  © Ilhan Kurultay All rights reserved</Copyright>		<Title>Infrastructure Library For ClubStat Mobile App</Title>
-		<Authors>Ilhan Kurultay</Authors>
-		<Company>Private eigendom Ilhan Kurultay</Company>
-				    <Title>Infrastructure Library For ClubStat Mobile App</Title>
-    <Authors>Ilhan Kurultay</Authors>
-    <Company>Private eigendom Ilhan Kurultay</Company>
-    		<Title>Infrastructure Library For ClubStat Mobile App</Title>
-		<Authors>Ilhan Kurultay</Authors>
-		<Company>Private eigendom Ilhan Kurultay</Company>
-				    <Title>Infrastructure Library For ClubStat Mobile App</Title>
-    <Authors>Ilhan Kurultay</Authors>
-    <Company>Private eigendom Ilhan Kurultay</Company>
-    
+
 		<!-- App Identifier -->
 		<ApplicationId>com.companyname.clubstatui</ApplicationId>
 
@@ -59,31 +50,35 @@
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-android|AnyCPU'">
-	  <ApplicationId>com.ilhan.clubstat</ApplicationId>
-	  <ApplicationTitle>ClubStat</ApplicationTitle>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <AndroidKeyStore>False</AndroidKeyStore>
+		<ApplicationId>com.ilhan.clubstat</ApplicationId>
+		<ApplicationTitle>ClubStat</ApplicationTitle>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<AndroidKeyStore>False</AndroidKeyStore>
+		<NoWarn>1701;1702;IDE1006</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Debug|net8.0-ios|AnyCPU'">
-	  <ApplicationId>com.ilhan.clubstat</ApplicationId>
-	  <ApplicationTitle>ClubStat</ApplicationTitle>
+		<ApplicationId>com.ilhan.clubstat</ApplicationId>
+		<ApplicationTitle>ClubStat</ApplicationTitle>
+		<NoWarn>1701;1702;IDE1006</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-android|AnyCPU'">
-	  <ApplicationId>com.ilhan.clubstat</ApplicationId>
-	  <ApplicationTitle>ClubStat</ApplicationTitle>
-	  <AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
-	  <AndroidEnableMultiDex>True</AndroidEnableMultiDex>
-	  <RunAOTCompilation>False</RunAOTCompilation>
-	  <PublishTrimmed>False</PublishTrimmed>
-	  <AndroidKeyStore>False</AndroidKeyStore>
+		<ApplicationId>com.ilhan.clubstat</ApplicationId>
+		<ApplicationTitle>ClubStat</ApplicationTitle>
+		<AndroidCreatePackagePerAbi>True</AndroidCreatePackagePerAbi>
+		<AndroidEnableMultiDex>True</AndroidEnableMultiDex>
+		<RunAOTCompilation>False</RunAOTCompilation>
+		<PublishTrimmed>False</PublishTrimmed>
+		<AndroidKeyStore>False</AndroidKeyStore>
+		<NoWarn>1701;1702;IDE1006</NoWarn>
 	</PropertyGroup>
 
 	<PropertyGroup Condition="'$(Configuration)|$(TargetFramework)|$(Platform)'=='Release|net8.0-ios|AnyCPU'">
-	  <ApplicationId>com.ilhan.clubstat</ApplicationId>
-	  <ApplicationTitle>ClubStat</ApplicationTitle>
+		<ApplicationId>com.ilhan.clubstat</ApplicationId>
+		<ApplicationTitle>ClubStat</ApplicationTitle>
+		<NoWarn>1701;1702;IDE1006</NoWarn>
 	</PropertyGroup>
 
 	<ItemGroup>
@@ -105,7 +100,7 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Remove="Resources\Images\Vector.png" />
+		<None Remove="Resources\Images\Vector.png" />
 	</ItemGroup>
 
 	<ItemGroup>
@@ -118,60 +113,66 @@
 	</ItemGroup>
 
 	<ItemGroup>
-	  <ProjectReference Include="..\ClubStat.Infrastructure\ClubStat.Infrastructure.csproj" />
+		<ProjectReference Include="..\ClubStat.Infrastructure\ClubStat.Infrastructure.csproj" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Using Include="ClubStatUI.ViewModels" />
-	  <Using Include="CommunityToolkit.Mvvm.ComponentModel" />
+		<Using Include="ClubStatUI.ViewModels" />
+		<Using Include="CommunityToolkit.Mvvm.ComponentModel" />
 	</ItemGroup>
 
 	<ItemGroup>
-	  <Compile Update="Platforms\iOS\Builder\IosExtensions.cs">
-	    <ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
-	  </Compile>
+		<Compile Update="Platforms\iOS\Builder\IosExtensions.cs">
+			<ExcludeFromCurrentConfiguration>false</ExcludeFromCurrentConfiguration>
+		</Compile>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <MauiXaml Update="Pages\Carousel.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\CoachAbsences.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\DashboardCoach.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\DashboardPlayer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\FormationCoach.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\ProfilePlayer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\StatsPlayer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Pages\TeamPlayer.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
-	  <MauiXaml Update="Resources\Styles\Login.xaml">
-	    <Generator>MSBuild:Compile</Generator>
-	  </MauiXaml>
+		<MauiXaml Update="Pages\AgendaPlayer.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\Carousel.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\CoachAbsences.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\DashboardCoach.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\DashboardPlayer.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\ForgetPassword.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\FormationCoach.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\ProfilePlayer.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\StatsPlayer.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Pages\TeamPlayer.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
+		<MauiXaml Update="Resources\Styles\Login.xaml">
+			<Generator>MSBuild:Compile</Generator>
+		</MauiXaml>
 	</ItemGroup>
 
 	<ItemGroup>
-	  <None Update="appsettings.json">
-	    <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
-	  </None>
+		<None Update="appsettings.json">
+			<CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
+		</None>
 	</ItemGroup>
 
-	<ItemGroup>
-	  <Folder Include="Assets\images\clubs\" />
-	</ItemGroup>
-
-	<ProjectExtensions><VisualStudio><UserProperties XamarinHotReloadDebuggerTimeoutExceptionClubStatUIHideInfoBar="True" /></VisualStudio></ProjectExtensions>
+	<ProjectExtensions>
+		<VisualStudio>
+			<UserProperties XamarinHotReloadDebuggerTimeoutExceptionClubStatUIHideInfoBar="True" />
+		</VisualStudio>
+	</ProjectExtensions>
 
 </Project>
