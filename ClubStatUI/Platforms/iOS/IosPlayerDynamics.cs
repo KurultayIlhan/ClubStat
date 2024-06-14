@@ -21,16 +21,20 @@ namespace ClubStatUI.Platforms
     {
         private readonly IMessageDialog _messageService;
         private readonly ILoginFactory _loginFactory;
+        private readonly IPlayerRecorder _recorder;
 
-        public IosPlayerDynamics(IMessageDialog messageService, ILoginFactory loginFactory)
+        public IosPlayerDynamics(IMessageDialog messageService, ILoginFactory loginFactory, IPlayerRecorder recorder)
         {
             this._messageService = messageService;
             _loginFactory = loginFactory;
-            LastKnownLocation = new PlayerDynamicsLocation(0, 0, DateTime.MinValue, _loginFactory.CurrentUser?.UserId ?? Guid.Empty);
+            _recorder = recorder;
+            Member = _loginFactory.CurrentUser;
+            LastKnownLocation = new PlayerDynamicsLocation(0, 0, DateTime.MinValue,0, _loginFactory.CurrentUser?.UserId ?? Guid.Empty);
         }
 
         public bool IsInGame { get; set; }
-
+        public LoggedInUser? Member { get; set; }
+        public Match? Match { get; set; }
         public PlayerDynamicsLocation LastKnownLocation { get; private set; }
 
         public async Task<PlayerDynamicsLocation> GetPlayerDynamicsLocation()
@@ -41,15 +45,30 @@ namespace ClubStatUI.Platforms
                 {
                     return LastKnownLocation;
                 }
-
+                // Can be that sometimes the GPS is busy, but it is asking for the last known location. It will never fail permanently; otherwise, it will throw an exception.
+                
                 var location = await Geolocation.GetLastKnownLocationAsync().ConfigureAwait(false);
                 if (location is not null && _loginFactory.CurrentUser is not null && _loginFactory.CurrentUser.UserType == UserType.Player)
                 {
-                    LastKnownLocation = new PlayerDynamicsLocation(Convert.ToDecimal(location.Latitude), Convert.ToDecimal(location.Longitude), DateTime.Now, _loginFactory.CurrentUser.UserId);
+                    var last = new PlayerDynamicsLocation(Convert.ToDecimal(location.Latitude)
+                                            , Convert.ToDecimal(location.Longitude)
+                                            , DateTime.Now
+                                            , Match?.MatchId??0
+                                            , Member?.UserId ?? Guid.Empty
+                                            );
+                    if (Member is Player player && Match is not null)
+                    {
+                        _recorder.RecordLocation(player, Match, last);
+                    }
+                    MainThread.BeginInvokeOnMainThread(()=>{ 
+                        LastKnownLocation= last;
+                    });
+                    return last;
                 }
 
-                // Can be that sometimes the GPS is busy, but it is asking for the last known location. It will never fail permanently; otherwise, it will throw an exception.
-                return await GetPlayerDynamicsLocation().ConfigureAwait(false);
+                return LastKnownLocation;
+
+
             }
             catch (FeatureNotSupportedException fnsEx)
             {

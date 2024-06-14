@@ -26,10 +26,13 @@ namespace ClubStatUI.Platforms.Android
         {
             this._messageService = messageService;
             _loginFactory = loginFactory;
-            LastKnownLocation = new PlayerDynamicsLocation(0, 0, DateTime.MinValue, _loginFactory.CurrentUser?.UserId ?? Guid.Empty);
+            Member = _loginFactory.CurrentUser;
+            LastKnownLocation = new PlayerDynamicsLocation(0, 0, DateTime.MinValue, 0,Member?.UserId ?? Guid.Empty);
         }
 
         public bool IsInGame { get; set; }
+        public LoggedInUser? Member { get; set; }
+        public Match? Match { get; set; }
 
         public PlayerDynamicsLocation LastKnownLocation { get; private set; }
 
@@ -43,15 +46,42 @@ namespace ClubStatUI.Platforms.Android
                     return LastKnownLocation;
                 }
 
-                var location = await Geolocation.Default.GetLastKnownLocationAsync().ConfigureAwait(false);
-                if (location is not null && _loginFactory.CurrentUser is not null && _loginFactory.CurrentUser.UserType == UserType.Player)
+                var status = await Permissions.CheckStatusAsync<Permissions.LocationWhenInUse>();
+                if (status != PermissionStatus.Granted)
                 {
-                    LastKnownLocation = new PlayerDynamicsLocation(Convert.ToDecimal(location.Latitude), Convert.ToDecimal(location.Longitude), DateTime.Now, _loginFactory.CurrentUser.UserId);
+                    //ui interactivity must be called on the UI thread
+                    MainThread.BeginInvokeOnMainThread(async () =>
+                    {
+                        // Request the permissions as it is not already granted
+                        status = await Permissions.RequestAsync<Permissions.LocationWhenInUse>();
+                    });
                 }
 
+                if (status == PermissionStatus.Granted)
+                {
+                    var location = await Geolocation.Default.GetLocationAsync(new GeolocationRequest(GeolocationAccuracy.Best))
+                                                             .ConfigureAwait(false);
+                    if (location is null)
+                    {
+                        await Geolocation.Default.GetLastKnownLocationAsync().ConfigureAwait(false);
+                    }
 
+                    if (location is not null)
+                    {
+
+                        LastKnownLocation = new PlayerDynamicsLocation(Convert.ToDecimal(location.Latitude)
+                                                                     , Convert.ToDecimal(location.Longitude)
+                                                                     , DateTime.Now
+                                                                     , Match?.MatchId ?? 0
+                                                                     , Member?.UserId ?? Guid.Empty
+                                                                     );
+                    }
+                    
+                }
+
+                return LastKnownLocation;
                 // Can be that sometimes the gps is busy, but it is asking for the last known location. It will never fail perm otherwise it will throw an ex.
-                return await GetPlayerDynamicsLocation().ConfigureAwait(false);
+                //return await GetPlayerDynamicsLocation().ConfigureAwait(false);
             }
             catch (FeatureNotSupportedException fnsEx)
             {
