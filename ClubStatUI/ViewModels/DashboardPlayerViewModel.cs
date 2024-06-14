@@ -1,4 +1,4 @@
-// ***********************************************************************
+﻿// ***********************************************************************
 // Assembly         : ClubStatUI
 // Author           : Ilhan Kurultay
 // Created          : Mon 12-Feb-2024
@@ -29,10 +29,17 @@ namespace ClubStatUI.ViewModels
     
     public partial class DashboardPlayerViewModel: ObservableObject, ILoadAsync
     {
+        private readonly IPlayerRecorder _playerRecorder;
         private readonly IMatchFactory _matchFactory;
         private readonly ILoginFactory _loginFactory;
         [ObservableProperty]
+        private string _imagePath ="bronze.png";
+
+        [ObservableProperty]
         ClubStat.Infrastructure.Models.Player? _user;
+
+        [ObservableProperty]
+        private PlayerMotionStatistics _statistics = new();
 
         [ObservableProperty]
         UpcomingMatchView _upcomingMatch;
@@ -47,14 +54,17 @@ namespace ClubStatUI.ViewModels
         PlayerOfTheMonthView? _playerOfTheMonth;
 
         [ObservableProperty]
+        private Match? _lastMatch;
+
+        [ObservableProperty]
         Player? _loggedInUser;
 
-        public DashboardPlayerViewModel(IMatchFactory matchFactory, ILoginFactory loginFactory)
+        public DashboardPlayerViewModel(IPlayerRecorder playerRecorder, IMatchFactory matchFactory, ILoginFactory loginFactory)
         {
             // TODO: navigate to login when current user is null
             if (loginFactory.CurrentUser is Player player) 
             { 
-                _user = player;
+                User = player;
             }
 
             // Initialize other fields with required arguments
@@ -65,9 +75,13 @@ namespace ClubStatUI.ViewModels
             _trainingResults = new TrainingResults(new ScoreZeroToFive(), new ScoreZeroToFive());
             _playerOfTheMonth = new PlayerOfTheMonthView(new Team(), new Player());
             _loggedInUser = new Player();
+            _playerRecorder = playerRecorder;
             _matchFactory = matchFactory;
             _loginFactory = loginFactory;
         }
+        
+
+
 
         public async Task ExecuteAsync()
         {
@@ -76,7 +90,34 @@ namespace ClubStatUI.ViewModels
                 UpcomingMatch.Division = player.PlayersLeagueLevel.ToDivision();
                 
             }
-            
+            if (User is not null)
+            {
+                var match = await _matchFactory.GetPlayersLastMatch(User.UserId).ConfigureAwait(true);
+                if (match is not null)
+                {
+                    LastMatch = match;
+
+                    var data = await _playerRecorder.GetPlayerMotionStatisticsAsync(User, LastMatch.MatchId).ConfigureAwait(true);
+                    if (data != null)
+                    {
+                        if(data.Sprints > 500 && data.AverageSpeed > 3)
+                        {
+                            ImagePath = "gold.png";
+                        } 
+                        else if(data.Sprints > 100 && data.AverageSpeed > 0)
+                        {
+                            ImagePath = "silver.png";
+                        }
+                        else
+                        {
+                            ImagePath = "bronze.png";
+                        }
+                   
+                        Statistics = data;
+                    }
+                }
+            }
+
 
             var id = User?.UserId ?? _loginFactory.CurrentUser?.UserId;
             if (id.HasValue)
@@ -84,7 +125,9 @@ namespace ClubStatUI.ViewModels
                 var match = await _matchFactory.GetPlyersNextMatch(playerId: id.Value).ConfigureAwait(true);
                 if (match is not null)
                 {
+                    base.OnPropertyChanging(nameof(UpcomingMatch));
                     UpcomingMatch.Match = match;
+                    base.OnPropertyChanged(nameof(UpcomingMatch));
                 }
             }
             if(UpcomingMatch.Match is not null) 
@@ -95,6 +138,7 @@ namespace ClubStatUI.ViewModels
                     var list = await LocalNotificationCenter.Current.GetDeliveredNotificationList().ConfigureAwait(true);
 
                     UpcomingMatch.RemindMe = list.FirstOrDefault(f => f.NotificationId == UpcomingMatch.Match.GetReminderId()) != null;
+                    base.OnPropertyChanged(nameof(UpcomingMatch));
                 }
 
             }

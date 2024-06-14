@@ -1,6 +1,8 @@
 ﻿using ClubStat.Infrastructure;
 using ClubStat.Infrastructure.Factories;
 
+using ClubStatUI.Infrastructure;
+
 namespace ClubStatUI.ViewModels
 {
     public partial class ProfilePicturePlayerViewModel : ObservableObject, ILoadAsync
@@ -8,10 +10,12 @@ namespace ClubStatUI.ViewModels
         [ObservableProperty]
         private ImageSource? _profileImage;
         private readonly IProfilePictureFactory _pictureFactory;
+        private readonly ILoginFactory _loginFactory;
 
-        public ProfilePicturePlayerViewModel(IProfilePictureFactory pictureFactory)
+        public ProfilePicturePlayerViewModel(IProfilePictureFactory pictureFactory, ILoginFactory loginFactory)
         {
             _pictureFactory = pictureFactory;
+            _loginFactory = loginFactory;
         }
 
 
@@ -19,7 +23,12 @@ namespace ClubStatUI.ViewModels
 
         async Task ILoadAsync.ExecuteAsync()
         {
-            var bytes = await _pictureFactory.GetProfilePictureForCurrentUserAsync();
+            if (_loginFactory.CurrentUser is null)
+            {
+                return;
+            }
+
+            var bytes = await _pictureFactory.GetProfilePictureForUserAsync(_loginFactory.CurrentUser.UserId);
             if (bytes.Length > 0)
             {
                 var source = ImageSource.FromStream(() => new MemoryStream(bytes));
@@ -38,10 +47,12 @@ namespace ClubStatUI.ViewModels
             await stream.CopyToAsync(memoryStream);
             var imageBytes = memoryStream.ToArray();
 
-            await _pictureFactory.UploadPictureForUser(userId,imageBytes);
+            await _pictureFactory.UploadPictureForUserAsync(userId,imageBytes);
 
+            
             // Update the profile image after uploading
             var source = ImageSource.FromStream(() => new MemoryStream(imageBytes));
+            ImageHelper.ReplaceImage(imageBytes,source);
             ProfileImage = source;
         }
 
