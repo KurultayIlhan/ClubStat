@@ -1,22 +1,58 @@
 # ClubStat
-Hi, im Ilhan Kurultay and this is my project ClubStat.
-Before we start CLubStat is an app that enables players to record their location and speed to evolve and toi become future good players.
-The app has 2 kinds of profiles wich is the player first and coach second.
-Don't forget the app uses the Identity Management System (IMS). So only the admin is able to make accounts. The reason for using this system is to avoid people making fake profiles to cheat on the games. Each season will the Clubs that want to paerticipate send an nmail with the players and pictures and withc the easy way that the app lets you can you add the playersn,coaches, change passwords, get their stats in swagger: https://ilhankurultay-001-site1.btempurl.com/swagger/index.html.
 
-## Getting started
-To start using ClubStat you have to copy the repository to your computer. The most used way is putting it in this directory: C:\Users\{your user}\source\. Here it will be structured and will not get lost.
-To open the sourcecode you can use Visual Studio(Wich i recomend).
-Open the solution and you will see that there are 8 folders.
-1: ClubStat.Infrastructure
-2: ClubStat.Infrastructure.Tests
-3: ClubStat.RestServer
-4: ClubStat.RestServerTests
-5: ClubStatDataBase
-6: ClubStatUI
-7: ClubStatUITests
-8: ClubStat.IntegrationTest
+Hi, I'm Ilhan Kurultay, and this is my project, ClubStat.
 
-The one you will need to use will be ClubStatUI. ClubStatUI is the front-end part of the project where the viewmodel gives the information to the view and the view or xaml displays is.
-To use it on your phone you will require more steps: Firstly check if your phone is enabled for Developer options. So not you can easily open it following this: https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/
-[![Open Developer Option]([https://img.shields.io/badge/my_portfolio-000?style=for-the-badge&logo=ko-fi&logoColor=white]([https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/))](https://katherineoelsner.com/](https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/))
+## Overview
+
+ClubStat is an app designed to help players record their location and speed to improve and become better players. The app features two types of profiles: Player and Coach.
+
+ClubStat utilizes an Identity Management System (IMS), meaning only admins can create accounts. This prevents the creation of fake profiles to cheat in the games. Each season, clubs that wish to participate will send an email with the players' details and photos. The app makes it easy to add players, coaches, change passwords, and retrieve their stats via Swagger: [ClubStat Swagger Documentation](https://ilhankurultay-001-site1.btempurl.com/swagger/index.html).
+
+## Getting Started
+
+To start using ClubStat, clone the repository to your computer. The recommended directory is:
+
+This will keep the project organized and easily accessible.
+
+### Prerequisites
+
+- Visual Studio (recommended for opening the solution and managing the project)
+
+### Project Structure
+
+Upon opening the solution in Visual Studio, you will find the following folders:
+
+1. **ClubStat.Infrastructure**
+2. **ClubStat.Infrastructure.Tests**
+3. **ClubStat.RestServer**
+4. **ClubStat.RestServerTests**
+5. **ClubStatDataBase**
+6. **ClubStatUI**
+7. **ClubStatUITests**
+8. **ClubStat.IntegrationTest**
+
+### ClubStatUI
+
+The main folder you will need is **ClubStatUI**. This is the front-end part of the project where the ViewModel provides information to the view, and the XAML files display it.
+
+To use the app on your phone, follow these steps:
+
+#### Enabling Developer Options on Android
+
+First, ensure your phone has Developer Options enabled. If not, you can easily enable it by following this guide: [How to Enable Developer Options on Android](https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/)
+
+[![Enable Developer Options](https://img.shields.io/badge/Enable_Developer_Options-000?style=for-the-badge&logo=android&logoColor=white)](https://www.digitaltrends.com/mobile/how-to-get-developer-options-on-android/)
+
+#### Connecting Your Phone
+
+1. Connect your phone to your computer.
+2. Build the project for your phone in Visual Studio.
+3. Once the build is complete, you can use the app on your phone wherever you go.
+
+---
+
+By following these instructions, you should be able to set up and use ClubStat effectively. If you have any questions or need further assistance, feel free to reach out.
+
+Happy training!
+
+Ilhan Kurultay
