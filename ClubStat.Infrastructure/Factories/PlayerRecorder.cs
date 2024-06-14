@@ -15,8 +15,10 @@ using ClubStat.Infrastructure.Infrastructure;
 
 using Microsoft.Extensions.Caching.Memory;
 using Microsoft.Extensions.DependencyInjection;
+using Microsoft.Extensions.Logging;
 
 using System.Collections.Concurrent;
+using System.Diagnostics;
 
 using Walter;
 
@@ -24,7 +26,7 @@ namespace ClubStat.Infrastructure.Factories
 {
 
 
-    internal sealed class PlayerRecorder : ApiBasedFactory, IPlayerRecorder
+    internal sealed class PlayerRecorder : ApiBasedFactory, IPlayerRecorder, IAsyncDisposable
     {
 
         ConcurrentQueue<(Player player, Match match, PlayerDynamicsLocation location)> _locationQueue;
@@ -32,6 +34,7 @@ namespace ClubStat.Infrastructure.Factories
         private volatile bool _uploading;
         private readonly IMemoryCache _memory;
         IOnlineDetector? _onlineDetector;
+        private bool _disposedValue;
 
         public PlayerRecorder(IConfiguration configuration, IHttpClientFactory httpClientFactory, IMemoryCache memory, IServiceProvider lazyLoader)
             : base(configuration, httpClientFactory)
@@ -41,7 +44,7 @@ namespace ClubStat.Infrastructure.Factories
             _memory = memory;
         }
 
-        public async Task RecordActivity(Player player, Match match, PlayerActivities activity)
+        public async Task<bool> RecordActivity(Player player, Match match, PlayerActivities activity)
         {
             var model = new PlayerActivityRow()
             {
@@ -51,9 +54,16 @@ namespace ClubStat.Infrastructure.Factories
                 PlayerId = player.UserId,
                 RecordedUtc = DateTime.UtcNow,
             };
-            await base.WriteDataAsync(MagicStrings.PlayerRecordActivityUrl, model).ConfigureAwait(false);
+            var success=await base.WriteDataAsync(MagicStrings.PlayerRecordActivityUrl, model).ConfigureAwait(false);
+            if (!success && !string.IsNullOrEmpty(base.LastResponse)) 
+            {
+                Trace.WriteLine(base.LastResponse);
+            }
+            return success;
 
         }
+
+        public bool HasData()=>!_locationQueue.IsEmpty;
 
         public void RecordLocation(Player player, Match match, PlayerDynamicsLocation location)
         {
@@ -87,10 +97,13 @@ namespace ClubStat.Infrastructure.Factories
         /// <remarks><see cref="LastRestError" /> for any issues during uploads</remarks>
         public async Task UploadLocationsAsync()
         {
+            var logger= Walter.Inverse.GetLogger("IPlayerRecorder.UploadLocationsAsync");
             try
             {
                 while (AsumeIsOnline() && _locationQueue.TryDequeue(out var item))
                 {
+                    logger?.LogInformation("Item dequeued");
+
                     var record = new RecordPlayerMovent(item.player.UserId
                                                     , item.match.MatchId
                                                     , Convert.ToDouble(item.location.Lat)
@@ -100,6 +113,10 @@ namespace ClubStat.Infrastructure.Factories
 
                     var success = await base.WriteDataAsync(MagicStrings.RecordPlayerLocation, record);
 
+                    if (!success)
+                    {
+                        logger?.LogInformation("Item dequeued but not saved");
+                    }
                     //try saving for one minute if not saved
                     if (!success && (DateTime.Now - item.location.Recorded) < TimeSpan.FromMinutes(1))
                     {
@@ -116,17 +133,24 @@ namespace ClubStat.Infrastructure.Factories
                     {
                         LastUpdate = item.location.Recorded.ToLocalTime();
                     }
-                    //invalidate memory while recording
-                    var keys = new[]{
-                  $"api/club/LastKnownLocation/{item.player.ClubId}/{item.match.MatchId}"
-                 ,$"api/match/LastKnownLocation/{item.match.MatchId}/{item.player.UserId}"
-                 ,$"GetPlayerStatistics-{item.player.UserId}"
-                 ,$"api/player/motionStatistics/{item.player.UserId}/{item.match.MatchId}"
-                 ,MagicStrings.GetPlayerMovementsInGame(item.player.UserId, item.match.MatchId)
-                };
-                    foreach (var key in keys)
+                    try
                     {
-                        if (_memory.TryGetValue(key, out _)) _memory.Remove(key);
+                        //invalidate memory while recording
+                        var keys = new[]{
+                              $"api/club/LastKnownLocation/{item.player.ClubId}/{item.match.MatchId}"
+                             ,$"api/match/LastKnownLocation/{item.match.MatchId}/{item.player.UserId}"
+                             ,$"GetPlayerStatistics-{item.player.UserId}"
+                             ,$"api/player/motionStatistics/{item.player.UserId}/{item.match.MatchId}"
+                             ,MagicStrings.GetPlayerMovementsInGame(item.player.UserId, item.match.MatchId)
+                            };
+                        foreach (var key in keys)
+                        {
+                            if (_memory.TryGetValue(key, out _)) _memory.Remove(key);
+                        }
+                    }
+                    catch (Exception ex)
+                    {
+                        logger?.LogException(ex);
                     }
                 }
             }
@@ -164,15 +188,15 @@ namespace ClubStat.Infrastructure.Factories
             
             var answer= await base.GetAsync<List<PlayerActivityRow>>(url,PlayerActivityRowsJsonContext.Default.ListPlayerActivityRow).ConfigureAwait(false);
             if (answer is not null && answer.Count > 0)
-            { 
-                if(!noCashing) 
+            {
+                if (!noCashing)
                 {
-                    _memory.Set(url,answer,new DateTimeOffset(DateTime.Now.AddMinutes(5)));
+                    _memory.Set(url, answer, new DateTimeOffset(DateTime.Now.AddMinutes(5)));
                 }
 
                 return answer;
-
             }
+
             return new();
         }
         public async Task<PlayerStatistics> GetPlayerStatisticsAsync(Player player)
@@ -267,6 +291,41 @@ namespace ClubStat.Infrastructure.Factories
 
             return answer;
 
+        }
+
+        private void Dispose(bool disposing)
+        {
+            if (!_disposedValue)
+            {
+                if (disposing)
+                {
+                    _onlineDetector = null;
+                }
+
+                // TODO: free unmanaged resources (unmanaged objects) and override finalizer
+                // TODO: set large fields to null
+                _disposedValue = true;
+            }
+        }
+
+        // // TODO: override finalizer only if 'Dispose(bool disposing)' has code to free unmanaged resources
+        // ~PlayerRecorder()
+        // {
+        //     // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+        //     Dispose(disposing: false);
+        // }
+
+        public void Dispose()
+        {
+            // Do not change this code. Put cleanup code in 'Dispose(bool disposing)' method
+            Dispose(disposing: true);
+            GC.SuppressFinalize(this);
+        }
+
+        public async ValueTask DisposeAsync()
+        {
+            await UploadLocationsAsync();
+            Dispose(disposing: true);
         }
     }
 }

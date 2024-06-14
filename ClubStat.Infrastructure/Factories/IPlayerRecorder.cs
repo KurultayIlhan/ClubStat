@@ -34,7 +34,7 @@ namespace ClubStat.Infrastructure.Factories
         /// <param name="match">The match.</param>
         /// <param name="activity">The activity.</param>
         /// <returns>System.Threading.Tasks.Task.</returns>
-        Task RecordActivity(Player player, Match match, PlayerActivities activity);
+        Task<bool> RecordActivity(Player player, Match match, PlayerActivities activity);
 
         /// <summary>
         /// Records the location of the player on the game.
@@ -91,5 +91,6 @@ namespace ClubStat.Infrastructure.Factories
         /// <param name="match">The match.</param>
         /// <returns>Task&lt;List&lt;PlayerActivityRow&gt;&gt;.</returns>
         Task<List<PlayerActivityRow>> GetRecordActivity(Player player, Match match);
+        bool HasData();
     }
 }
