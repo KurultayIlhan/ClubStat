@@ -11,6 +11,8 @@
 // </copyright>
 // <summary></summary>
 // ***********************************************************************
+using CommunityToolkit.Mvvm.ComponentModel;
+
 using System.Data.SqlTypes;
 using System.Text.Json.Serialization;
 
@@ -41,8 +43,11 @@ namespace ClubStat.Infrastructure.Models
     /// <summary>
     /// Class PlayerMovement is populated based on a player and can be used to read the location and speed of a player during a match.
     /// </summary>
-    public class PlayerMovement
+    public partial class PlayerMovement:ObservableObject
     {
+        private string _location = "0 - 0";
+        private double? _speed;
+        private double? _direction;
 
         /// <summary>
         /// Gets or sets the match identifier.
@@ -61,7 +66,7 @@ namespace ClubStat.Infrastructure.Models
         /// <value>The recorded date time UTC.</value>
         public DateTime RecordedUtc{ get; set; }
 
-        public long Date { get; set; }
+
         /// <summary>
         /// Gets or sets the location.
         /// </summary>
@@ -69,19 +74,30 @@ namespace ClubStat.Infrastructure.Models
         /// Formal is {lat} - {long}
         /// </remarks>
         /// <value>The location.</value>
-        public required string Location { get; set; } // Assuming Location is stored as a string, modify this as needed
+        public required string Location
+        {
+            get => _location;
+            set
+            {
+                if (SetProperty(ref _location, value))
+                { 
+                    base.OnPropertyChanged(nameof(Latitude));
+                    base.OnPropertyChanged(nameof(Longitude));
+                }
+            }
+        } // Assuming Location is stored as a string, modify this as needed
 
         /// <summary>
         /// Gets or sets the speed.
         /// </summary>
         /// <value>The speed.</value>
-        public double? Speed { get; set; }
+        public double? Speed { get => _speed; set =>SetProperty(ref _speed , value); }
 
         /// <summary>
         /// Gets or sets the direction.
         /// </summary>
         /// <value>The direction.</value>
-        public double? Direction { get; set; }
+        public double? Direction { get => _direction; set =>SetProperty(ref _direction , value); }
 
         [JsonIgnore]
         public decimal Latitude

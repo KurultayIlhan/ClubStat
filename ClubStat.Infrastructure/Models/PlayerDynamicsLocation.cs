@@ -47,10 +47,7 @@ namespace ClubStat.Infrastructure.Models
     /// <seealso cref="System.IEquatable{ClubStat.Infrastructure.Models.PlayerDynamicsLocation}" />
     public sealed class PlayerDynamicsLocation:IAsJson, IEquatable<PlayerDynamicsLocation?>
     {
-        /// <summary>
-        /// The recorded
-        /// </summary>
-        private DateTime _recorded;
+
 
         /// <summary>
         /// Initializes a new instance of the <see cref="PlayerDynamicsLocation"/> class.
@@ -67,12 +64,12 @@ namespace ClubStat.Infrastructure.Models
         /// <param name="lng">The LNG.</param>
         /// <param name="recorded">The recorded.</param>
         /// <param name="playerId">The player identifier.</param>
-        public PlayerDynamicsLocation(decimal lat, decimal lng, DateTime recorded, Guid playerId)
+        public PlayerDynamicsLocation(decimal lat, decimal lng, DateTime recorded, int matchId,Guid playerId)
         {
             Lat = lat;
             Lng = lng;
-            _recorded = recorded;
-
+            Recorded = recorded;
+            MatchId = matchId;
             PlayerId = playerId;
         }
 
@@ -92,6 +89,12 @@ namespace ClubStat.Infrastructure.Models
         /// </summary>
         /// <value>The LNG.</value>
         public decimal Lng { get; set; }
+
+        /// <summary>
+        /// Gets or sets the match identifier.
+        /// </summary>
+        /// <value>The match identifier.</value>
+        public int MatchId { get; set; }
 
         /// <summary>
         /// Gets or sets the recorded.

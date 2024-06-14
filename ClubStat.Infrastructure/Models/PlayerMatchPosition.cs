@@ -21,6 +21,7 @@ namespace ClubStat.Infrastructure.Models
     [JsonSerializable(typeof(PlayerMatchPosition))]
     [JsonSourceGenerationOptions(
                 GenerationMode = JsonSourceGenerationMode.Metadata,
+                Converters =[typeof( System.Text.Json.Serialization.JsonStringEnumConverter<MatchPosition>)],
                 DefaultIgnoreCondition = JsonIgnoreCondition.WhenWritingDefault,
                 PropertyNameCaseInsensitive = true,
                 WriteIndented = true
@@ -53,6 +54,7 @@ namespace ClubStat.Infrastructure.Models
         public int MatchId { get => _matchId; set => SetProperty(ref _matchId, value); }
         public Guid PlayerId { get => _playerId; set => SetProperty(ref _playerId, value); }
 
+        [JsonConverter(typeof(System.Text.Json.Serialization.JsonStringEnumConverter<MatchPosition>))]
         public MatchPosition Position { get => _position; set => SetProperty(ref _position, value); }
 
         

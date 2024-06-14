@@ -17,6 +17,8 @@ public interface IPlayerDynamics
     Task<PlayerDynamicsLocation> GetPlayerDynamicsLocation();
 
     public bool IsInGame { get; set; }
+    public LoggedInUser? Member { get; set; }
+    public Match? Match { get; set; }
 
     public PlayerDynamicsLocation LastKnownLocation { get; }
 }
