@@ -48,7 +48,7 @@
                                 <GradientStop Offset="1" Color="#000F22" />
                             </LinearGradientBrush>
                         </Frame.Background>
-                        <Image
+                        <!--<Image
                             Aspect="AspectFill"
                             HeightRequest="400"
                             Opacity="0.03"
@@ -56,7 +56,7 @@
                             TranslationX="200"
                             TranslationY="-10"
                             WidthRequest="400"
-                            ZIndex="-15" />
+                            ZIndex="-15" />-->
                     </Frame>
                 </Grid>
             </Frame>
